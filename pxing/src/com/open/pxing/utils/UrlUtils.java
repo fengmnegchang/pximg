@@ -39,4 +39,7 @@ public class UrlUtils {
 	public static final String MM_PC = "http://www.mm131.com/";
 	/** m pc看图 **/
 	public static final String MM_PC_IMAGE = "http://www.mm131.com/mingxing/1742.html";
+	
+	
+	public static final String PXING = "https://www.pximg.com/";
 }
