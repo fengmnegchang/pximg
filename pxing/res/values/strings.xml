@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MM+</string>
+	<string name="mm_all_desp">mm all</string>
+	<string name="mm_webview_desp">mm webview</string>
+	<string name="mm_main_list_desp">mm 主列表</string>
+	<string name="mm_left_menu_list_desp">mm left menu</string>
+	<string name="mm_slide_menu_desp">mm slide menu</string>
+	<string name="mm_search_desp">mm search</string>
+	<string name="mm_search_list_desp">mm search列表</string>
+	<string name="mm_titlebar_list_desp">mm titlebar</string>
+	<string name="mm_titlebar_search_desp">mm titlebar search</string>
+	<string name="mm_image_list_desp">mm 看图</string>
+	<string name="mm_image_pager_list_desp">mm 看图pager</string>
+	<string name="mm_tab_list_desp">mm tab</string>
+	<string name="mm_app_slide_menu_desp">mm app slide menu</string>
+	<string name="mm_collection_grid_list_desp">mm collection grid</string>
+	<string name="mm_history_grid_list_desp">mm 浏览历史</string>
+	<string name="mm_history_horizontal_list_desp">mm 浏览历史横向list 列表</string>
+	<string name="mm_history_list_horizontal_list_desp">mm 浏览历史list+横向list</string>
+	<string name="mm_pc_nav_grid_list_desp">mm pc 性感grid列表</string>
+	<string name="mm_pc_slide_menu_desp">mm pc slide menu</string>
+	<string name="mm_pc_focus_pager_desp">mm pc pager</string>
+	<string name="mm_pc_image_list_desp">mm pc看图</string>
+	<string name="mm_pc_image_pager_list_desp">mm pc看图pager</string>
+	<string name="mm_weex_main_desp">mm weex main</string>
+	<string name="mm_weex_nav_desp">mm weex  nav</string>
+</resources>

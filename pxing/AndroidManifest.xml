@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.open.mm"
+    android:versionCode="1"
+    android:versionName="1.0" >
+<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.GET_TOP_ACTIVITY_INFO" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="23" />
+
+    <application
+        android:name="com.open.mm.application.MMApplication"
+       android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/icon_app"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".SplashActivity"
+            android:description="@string/app_name"  >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- webview -->
+        <activity
+            android:name="com.open.android.activity.common.CommonWebViewActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_webview_desp" >
+        </activity>
+         <!-- mm 主列表 -->
+        <activity
+            android:name="com.open.mm.activity.m.MArticlePullListActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_main_list_desp" >
+        </activity>
+        <!-- mm left menu -->
+        <activity
+            android:name="com.open.mm.activity.m.MLeftMenuPullListActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_left_menu_list_desp" >
+        </activity>
+         <!-- mm slide menu-->
+        <activity
+            android:name="com.open.mm.activity.m.MMainSlideMenuActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_slide_menu_desp"
+            android:theme="@style/Theme.PageIndicatorDefaults"
+            >
+        </activity>
+         <!--m搜索条件-->
+        <activity
+            android:name="com.open.mm.activity.m.MSearchEditFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_search_desp"
+            >
+        </activity>
+         <!-- mm 搜索列表 -->
+        <activity
+            android:name="com.open.mm.activity.m.MSearchArticlePullListActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_search_list_desp" >
+        </activity>
+         <!-- mm titlebar -->
+        <activity
+            android:name="com.open.mm.activity.m.MCommonTitleBarActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_titlebar_list_desp" >
+        </activity>
+         <!--m titlebar搜索条件-->
+        <activity
+            android:name="com.open.mm.activity.m.MCommonTitleBarSearchEditFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_titlebar_search_desp"
+            >
+        </activity>
+        <!-- mm 看图 -->
+        <activity
+            android:name="com.open.mm.activity.m.MImagePullListActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_image_list_desp" >
+        </activity>
+        <!-- mm 看图pager -->
+        <activity
+            android:name="com.open.mm.activity.m.MImagePagerAdapterFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_image_pager_list_desp" >
+        </activity>
+        <!--mm Indicator 列表 -->
+        <activity
+            android:name="com.open.mm.activity.m.MMainIndicatorFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_tab_list_desp"
+            android:theme="@style/Theme.PageIndicatorDefaults"  >
+        </activity>
+        <!-- mm app slide menu-->
+        <activity
+            android:name="com.open.mm.activity.app.MAppMainSlideMenuActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_app_slide_menu_desp"
+            android:theme="@style/Theme.PageIndicatorDefaults"
+            >
+        </activity>
+         <!--mm 收藏grid 列表 -->
+        <activity
+            android:name="com.open.mm.activity.app.MCollectionGridFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_collection_grid_list_desp"
+             >
+        </activity>
+         <!--mm 浏览历史 列表 -->
+        <activity
+            android:name="com.open.mm.activity.app.MHistoryListGridFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_history_grid_list_desp"
+             >
+        </activity>
+        <!--mm 浏览历史横向list 列表 -->
+        <activity
+            android:name="com.open.mm.activity.app.MHistoryHorizontalListFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_history_horizontal_list_desp"
+             >
+        </activity>
+        <!--mm 浏览历史 list+横向list 列表 -->
+        <activity
+            android:name="com.open.mm.activity.app.MHistoryListHorizontalListFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_history_list_horizontal_list_desp"
+             >
+        </activity>
+        
+        <!--mm pc 性感grid列表 -->
+        <activity
+            android:name="com.open.mm.activity.pc.PCNavGridFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_pc_nav_grid_list_desp"
+             >
+        </activity>
+        <!-- mm pc slide menu-->
+        <activity
+            android:name="com.open.mm.activity.pc.PCMainSlideMenuActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_pc_slide_menu_desp"
+            android:theme="@style/Theme.PageIndicatorDefaults"
+            >
+        </activity>
+        <!--  mm pc  导航pager -->
+        <activity
+            android:name="com.open.mm.activity.pc.PCFocusViewPagerFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_pc_focus_pager_desp" >
+        </activity>
+         <!-- mm pc看图 -->
+        <activity
+            android:name="com.open.mm.activity.pc.PCImagePullListActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_pc_image_list_desp" >
+        </activity>
+        <!-- mm pc看图pager -->
+        <activity
+            android:name="com.open.mm.activity.pc.PCImagePagerAdapterFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_pc_image_pager_list_desp" >
+        </activity>
+        <!-- main weex-->
+        <activity
+            android:name="com.open.android.weex.WeexMainActivity"
+            android:description="@string/mm_weex_main_desp" 
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            >
+        </activity>
+        
+        <activity
+            android:name="com.open.android.weex.WeexNavigatorActivity"
+            android:description="@string/mm_weex_nav_desp" 
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            >
+            <intent-filter>
+                 <action android:name="com.taobao.android.intent.action.WEEX"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="com.taobao.android.intent.category.WEEX"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+                <data android:scheme="file"/>
+                <data android:scheme="wxpage"/>
+            </intent-filter>
+        </activity>
+        <!-- 所有类列表 -->
+        <activity
+            android:name="com.open.android.activity.common.CommonALLActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/mm_all_desp" >
+            <!-- <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter> -->
+        </activity>
+    </application>
+
+</manifest>
