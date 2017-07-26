@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">MM+</string>
+    <string name="app_name">PXing+</string>
 	<string name="mm_all_desp">mm all</string>
 	<string name="mm_webview_desp">mm webview</string>
 	<string name="mm_main_list_desp">mm 主列表</string>
