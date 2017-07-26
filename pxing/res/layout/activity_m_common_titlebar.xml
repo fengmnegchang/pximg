@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#fc5677"
+    android:background="#BF382B"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:fitsSystemWindows="true"
@@ -12,7 +12,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="45dp"
-        android:background="#fc5677" >
+        android:background="#BF382B" >
 		<TextView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
@@ -40,7 +40,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
-            android:text="MM131"
+            android:text="PXing"
             android:id="@+id/txt_title"
             android:textColor="#fff"
             android:textSize="20sp"

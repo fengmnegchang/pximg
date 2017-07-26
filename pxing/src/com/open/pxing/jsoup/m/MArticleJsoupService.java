@@ -46,50 +46,25 @@ public class MArticleJsoupService extends CommonService {
 			// {
 			// }
 			// });
+			
 			Document doc;
-			if (pageNo > 1) {
-				doc = Jsoup.parse(href);
-			}else{
-				doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
-			}
+			doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
 			Log.i(TAG, "url = " + href);
 
 //			Document doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
 			// System.out.println(doc.toString());
 			try {
-				/**
-				 * <article id="post-1" class="post"><div class="post-header">
-				 * <h2 class="post-title"><a class="post-title-link"
-				 * href="http://m.mm131.com/xinggan/2962.html"
-				 * rel="bookmark">诱人少妇优优身材火辣豪乳肉感十足</a></h2></div><div
-				 * class="post-content post-text"><a
-				 * href="http://m.mm131.com/xinggan/2962.html"><img
-				 * src="http://img1.mm131.com/pic/2962/m.jpg"
-				 * data-img="http://img1.mm131.com/pic/2962/m.jpg"
-				 * alt="诱人少妇优优身材火辣豪乳肉感十足" /></a>
-				 * <p>
-				 * </p>
-				 * </div><div class="post-footer"><span
-				 * class="post-meta">2017-06-07
-				 * 11:01:06</span></div></article><article class="post"
-				 * id="myshow"></article>
-				 */
-				// Element globalnavElement =
-				// doc.select("div.adFocusHtml").first();
-				Elements moduleElements = doc.select("article.post");
+				 Element globalnavElement =
+				 doc.select("ul.list-cat").first();
+				Elements moduleElements = globalnavElement.select("li");
 				if (moduleElements != null && moduleElements.size() > 0) {
 					for (int i = 0; i < moduleElements.size(); i++) {
-						Element pElement = moduleElements.get(i);
-						if (pElement.attr("id").contains("post-")) {
 							MArticleBean sbean = new MArticleBean();
 							try {
 								try {
 									Element aElement = moduleElements.get(i).select("a").first();
 									if (aElement != null) {
 										String hrefa = aElement.attr("href");
-										if(!hrefa.contains(UrlUtils.MM_M)){
-											hrefa = UrlUtils.MM_M+hrefa;
-										}
 										Log.i(TAG, "i==" + i + ";hrefa==" + hrefa);
 										sbean.setHref(hrefa);
 									}
@@ -100,7 +75,7 @@ public class MArticleJsoupService extends CommonService {
 								try {
 									Element imgElement = moduleElements.get(i).select("img").first();
 									if (imgElement != null) {
-										String src = imgElement.attr("src");
+										String src = "https:"+imgElement.attr("lazysrc");
 										Log.i(TAG, "i==" + i + ";src==" + src);
 										sbean.setSrc(src);
 
@@ -124,33 +99,21 @@ public class MArticleJsoupService extends CommonService {
 								}
 
 								try {
-									Element imgElement = moduleElements.get(i).select("img").first();
+									Element imgElement = moduleElements.get(i).select("span.text").first();
 									if (imgElement != null) {
-										String dataimg = imgElement.attr("data-img");
-										Log.i(TAG, "i==" + i + ";dataimg==" + dataimg);
-										sbean.setDataimg(dataimg);
+										String meta = imgElement.text();
+										Log.i(TAG, "i==" + i + ";meta==" + meta);
+										sbean.setMeta(meta);
 									}
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
-
-								try {
-									Element imgElement = moduleElements.get(i).select("span.post-meta").first();
-									if (imgElement != null) {
-										String postmeta = imgElement.text();
-										Log.i(TAG, "i==" + i + ";postmeta==" + postmeta);
-										sbean.setPostmeta(postmeta);
-									}
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-
+ 
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 
 							list.add(sbean);
-						}
 					}
 				}
 

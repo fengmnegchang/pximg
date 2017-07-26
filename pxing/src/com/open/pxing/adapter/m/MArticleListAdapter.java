@@ -59,13 +59,15 @@ public class MArticleListAdapter extends CommonAdapter<MArticleBean>{
 		}
 		final MArticleBean bean = (MArticleBean) getItem(position);
 		if (bean != null) {
-			viewHolder.text_camLiDes.setText(bean.getPostmeta());
+			viewHolder.text_camLiDes.setText(bean.getMeta());
 			viewHolder.text_title.setText(bean.getAlt());
-			if (bean.getDataimg()!= null && bean.getDataimg().length() > 0) {
+			//https://img.pximg.com/2017/07/a6f55dba3a99034.jpg!pximg/both/205x277
+			//https://img.pximg.com/2017/07/a6f55dba3a99034.jpg!pximg/both/205x277
+			if (bean.getSrc()!= null && bean.getSrc().length() > 0) {
 				DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.default_img).showImageForEmptyUri(R.drawable.default_img).showImageOnFail(R.drawable.default_img)
 //						.cacheInMemory().cacheOnDisc().build();
 				.cacheInMemory().cacheOnDisc().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).build();
-				ImageLoader.getInstance().displayImage(bean.getDataimg(), viewHolder.imageview, options, getImageLoadingListener());
+				ImageLoader.getInstance().displayImage(bean.getSrc(), viewHolder.imageview, options, getImageLoadingListener());
 			}
 
 			viewHolder.imageview.setOnClickListener(new OnClickListener() {

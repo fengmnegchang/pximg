@@ -42,4 +42,5 @@ public class UrlUtils {
 	
 	
 	public static final String PXING = "https://www.pximg.com/";
+	public static final String PXING_NEW="https://www.pximg.com/new/";
 }
