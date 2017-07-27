@@ -63,6 +63,7 @@ public class MArticleListAdapter extends CommonAdapter<MArticleBean>{
 			viewHolder.text_title.setText(bean.getAlt());
 			//https://img.pximg.com/2017/07/a6f55dba3a99034.jpg!pximg/both/205x277
 			//https://img.pximg.com/2017/07/a6f55dba3a99034.jpg!pximg/both/205x277
+			//https://img.pximg.com/2017/07/d264b5b3ac0169a.jpg!pximg/both/205x277
 			if (bean.getSrc()!= null && bean.getSrc().length() > 0) {
 				DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.default_img).showImageForEmptyUri(R.drawable.default_img).showImageOnFail(R.drawable.default_img)
 //						.cacheInMemory().cacheOnDisc().build();

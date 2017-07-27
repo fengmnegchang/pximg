@@ -23,6 +23,7 @@ import com.open.android.adapter.WXHttpAdapter;
 import com.open.android.module.WXEventModule;
 import com.open.android.module.WeexModalUIModule;
 import com.open.android.module.WeexModule;
+import com.open.pxing.utils.AuthImageDownloader;
 import com.taobao.weex.InitConfig;
 import com.taobao.weex.WXSDKEngine;
 
@@ -46,7 +47,9 @@ public class MMApplication extends Application {
         ImageLoaderConfiguration configuration =   new ImageLoaderConfiguration.Builder(this).threadPriority(Thread.NORM_PRIORITY - 2).denyCacheImageMultipleSizesInMemory()
                 .diskCacheFileNameGenerator(new Md5FileNameGenerator()).diskCacheSize(50 * 1024 * 1024) // 50 Mb
                 .tasksProcessingOrder(QueueProcessingType.LIFO).writeDebugLogs() // Remove for release app
+                .imageDownloader(new AuthImageDownloader(this))
                 .build();
+         
         //Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(configuration);
         
