@@ -12,18 +12,7 @@
 package com.open.pxing.application;
 
 
-import org.apache.http.client.params.HttpClientParams;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
+
 
 import android.app.Application;
 
@@ -39,8 +28,6 @@ import com.open.android.module.WXEventModule;
 import com.open.android.module.WeexModalUIModule;
 import com.open.android.module.WeexModule;
 import com.open.pxing.utils.AuthImageDownloader;
-import com.open.pxing.utils.HttpClientImageDownloader;
-import com.open.pxing.utils.UrlUtils;
 import com.taobao.weex.InitConfig;
 import com.taobao.weex.WXSDKEngine;
 
@@ -55,32 +42,12 @@ import com.taobao.weex.WXSDKEngine;
  * @description:
  *****************************************************************************************************************************************************************************
  */
-public class MMApplication extends Application {
+public class PXingApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
 
-        HttpParams params = new BasicHttpParams();
-        // Turn off stale checking. Our connections break all the time anyway,
-        // and it's not worth it to pay the penalty of checking every time.
-        HttpConnectionParams.setStaleCheckingEnabled(params, false);
-        // Default connection and socket timeout of 10 seconds. Tweak to taste.
-        HttpConnectionParams.setConnectionTimeout(params, 10 * 1000);
-        HttpConnectionParams.setSoTimeout(params, 10 * 1000);
-        HttpConnectionParams.setSocketBufferSize(params, 8192);
-
-        // Don't handle redirects -- return them to the caller. Our code
-        // often wants to re-POST after a redirect, which we must do ourselves.
-        HttpClientParams.setRedirecting(params, false);
-        // Set the specified user agent and register standard protocols.
-        HttpProtocolParams.setUserAgent(params, UrlUtils.userAgent);
-        SchemeRegistry schemeRegistry = new SchemeRegistry();
-        schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-        schemeRegistry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
-
-        ClientConnectionManager manager = new ThreadSafeClientConnManager(params, schemeRegistry);
-
-
+       
 //        ImageLoaderConfiguration configuration =
 //                new ImageLoaderConfiguration
 //                        .Builder(this)
@@ -89,6 +56,7 @@ public class MMApplication extends Application {
 //                        .threadPoolSize(1)
 //                        .memoryCache(new WeakMemoryCache())
 //                        .imageDownloader(new HttpClientImageDownloader(new DefaultHttpClient(manager, params)))
+////                        .imageDownloader(new AuthImageDownloader(this))
 //                        .build();
         
 //        //创建默认的ImageLoader配置参数
@@ -106,7 +74,7 @@ public class MMApplication extends Application {
                 .tasksProcessingOrder(QueueProcessingType.LIFO)
                 .writeDebugLogs() // Remove for release app
                 .memoryCache(new WeakMemoryCache())
-                .imageDownloader(new HttpClientImageDownloader(new DefaultHttpClient(manager, params)))
+                .imageDownloader(new AuthImageDownloader(this))
                 .build();
          
         //Initialize ImageLoader with configuration.

@@ -20,7 +20,7 @@
         android:targetSdkVersion="23" />
 
     <application
-        android:name="com.open.pxing.application.MMApplication"
+        android:name="com.open.pxing.application.PXingApplication"
        android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
