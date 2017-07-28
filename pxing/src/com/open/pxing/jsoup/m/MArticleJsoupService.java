@@ -143,9 +143,10 @@ public class MArticleJsoupService extends CommonService {
 			// {
 			// }
 			// });
-			href = href+pageNo;
 			Document doc;
-			doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent)
+					.cookie("Cookie", "UM_distinctid=15d4f9ce60a4eb-050c6be969bcef-35414878-1aeaa0-15d4f9ce60b3bc; CNZZDATA1260136144=1243021942-1500278440-https%253A%252F%252Fwww.baidu.com%252F%7C1501116123; Hm_lvt_21e82dda40c2143d1c3187f1c80935ec=1500279272,1500968826,1501061381; Hm_lpvt_21e82dda40c2143d1c3187f1c80935ec=1501119552")
+					.timeout(10000).get();
 			Log.i(TAG, "url = " + href);
 
 //			Document doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
@@ -153,22 +154,17 @@ public class MArticleJsoupService extends CommonService {
 			try {
 				/**
 				 */
-				// Element globalnavElement =
-				// doc.select("div.adFocusHtml").first();
-				Elements moduleElements = doc.select("article.post");
+				 Element globalnavElement =
+				 doc.select("ul.list").first();
+				Elements moduleElements = globalnavElement.select("li");
 				if (moduleElements != null && moduleElements.size() > 0) {
 					for (int i = 0; i < moduleElements.size(); i++) {
-						Element pElement = moduleElements.get(i);
-						if (pElement.attr("id").contains("post-")) {
 							MArticleBean sbean = new MArticleBean();
 							try {
 								try {
 									Element aElement = moduleElements.get(i).select("a").first();
 									if (aElement != null) {
 										String hrefa = aElement.attr("href");
-										if(!hrefa.contains(UrlUtils.MM_M)){
-											hrefa = UrlUtils.MM_M+hrefa;
-										}
 										Log.i(TAG, "i==" + i + ";hrefa==" + hrefa);
 										sbean.setHref(hrefa);
 									}
@@ -179,7 +175,7 @@ public class MArticleJsoupService extends CommonService {
 								try {
 									Element imgElement = moduleElements.get(i).select("img").first();
 									if (imgElement != null) {
-										String src = imgElement.attr("src");
+										String src = "https:"+imgElement.attr("lazysrc");
 										Log.i(TAG, "i==" + i + ";src==" + src);
 										sbean.setSrc(src);
 
@@ -202,23 +198,13 @@ public class MArticleJsoupService extends CommonService {
 									e.printStackTrace();
 								}
 
+								 
 								try {
-									Element imgElement = moduleElements.get(i).select("img").first();
+									Element imgElement = moduleElements.get(i).select("span.text").first();
 									if (imgElement != null) {
-										String dataimg = imgElement.attr("data-img");
-										Log.i(TAG, "i==" + i + ";dataimg==" + dataimg);
-										sbean.setDataimg(dataimg);
-									}
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-
-								try {
-									Element imgElement = moduleElements.get(i).select("span.post-meta").first();
-									if (imgElement != null) {
-										String postmeta = imgElement.text();
-										Log.i(TAG, "i==" + i + ";postmeta==" + postmeta);
-										sbean.setPostmeta(postmeta);
+										String  meta = imgElement.text();
+										Log.i(TAG, "i==" + i + ";meta==" + meta);
+										sbean.setMeta(meta);
 									}
 								} catch (Exception e) {
 									e.printStackTrace();
@@ -229,7 +215,6 @@ public class MArticleJsoupService extends CommonService {
 							}
 
 							list.add(sbean);
-						}
 					}
 				}
 

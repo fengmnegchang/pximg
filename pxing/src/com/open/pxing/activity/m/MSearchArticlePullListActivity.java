@@ -43,7 +43,7 @@ public class MSearchArticlePullListActivity extends MCommonTitleBarActivity{
 		if (getIntent().getStringExtra("URL") != null) {
 			url = getIntent().getStringExtra("URL");
 		} else {
-			url = UrlUtils.MM_M;
+			url = UrlUtils.PXING_SEARCH;
 		}
 		addfragment();
 	}

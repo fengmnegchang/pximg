@@ -27,7 +27,7 @@ import com.open.pxing.jsoup.m.MArticleJsoupService;
  * @description:
  ***************************************************************************************************************************************************************************** 
  */
-public class MSearchArticlePullListFragmnet extends MArticlePullListFragmnet{
+public class MSearchArticlePullListFragmnet extends MArticlePullGridFragmnet{
 
 	public static MSearchArticlePullListFragmnet newInstance(String url, boolean isVisibleToUser) {
 		MSearchArticlePullListFragmnet fragment = new MSearchArticlePullListFragmnet();
@@ -47,7 +47,13 @@ public class MSearchArticlePullListFragmnet extends MArticlePullListFragmnet{
 	public MArticleJson call() throws Exception {
 		// TODO Auto-generated method stub
 		MArticleJson mMArticleJson = new MArticleJson();
-		mMArticleJson.setList(MArticleJsoupService.parseSearchList(url, pageNo));
+		//https://www.pximg.com /? s=
+		//https://www.pximg.com /page/2? s=
+		String href = url;
+		if(pageNo>1){
+			href = url.replace("/?", "/page/"+pageNo+"?");
+		}
+		mMArticleJson.setList(MArticleJsoupService.parseSearchList(href, pageNo));
 		return mMArticleJson;
 	}
 

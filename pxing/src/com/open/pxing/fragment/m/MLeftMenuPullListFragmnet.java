@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
+import com.open.pxing.PXingWebViewActivity;
 import com.open.pxing.activity.m.MArticlePullListActivity;
 import com.open.pxing.adapter.m.MSlideMenuAdapter;
 import com.open.pxing.bean.m.MSlideMenuBean;
@@ -105,8 +106,16 @@ public class MLeftMenuPullListFragmnet extends CommonPullToRefreshListFragment<M
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		// TODO Auto-generated method stub
 		super.onItemClick(parent, view, position, id);
-		if(id!=1 && list.get((int)id)!=null){
-			MArticlePullListActivity.startMArticlePullListActivity(getActivity(), list.get((int)id).getHref());
+		if(id!=-1){
+			MSlideMenuBean bean = list.get((int)id);
+			if(bean!=null){
+				if("动态图片".equals(bean.getTitle()) || "性爱技巧".equals(bean.getTitle())){
+					PXingWebViewActivity.startPXingWebViewActivity(getActivity(), bean.getHref());
+				}else{
+					MArticlePullListActivity.startMArticlePullListActivity(getActivity(), bean.getHref());
+				}
+				
+			}
 		}
 		
 	}

@@ -14,12 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/imageview"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_width="280dp"
+        android:layout_height="250dp"
         android:gravity="center"
         android:layout_marginTop="3dp"
         android:layout_below="@+id/text_title"
@@ -32,6 +32,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageview"
         android:layout_marginTop="5dp"
-        android:textSize="14sp" />
+        android:textSize="12sp" />
 
 </RelativeLayout>

@@ -54,6 +54,12 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/pxing_main_list_desp" >
         </activity>
+        <!-- pxing 主列表grid -->
+        <activity
+            android:name="com.open.pxing.activity.m.MArticlePullGridActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/pxing_main_grid_desp" >
+        </activity>
         <!-- pxing left menu -->
         <activity
             android:name="com.open.pxing.activity.m.MLeftMenuPullListActivity"

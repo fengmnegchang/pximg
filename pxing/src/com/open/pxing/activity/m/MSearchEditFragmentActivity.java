@@ -72,7 +72,7 @@ public class MSearchEditFragmentActivity extends CommonFragmentActivity {
 		if (getIntent().getStringExtra("URL") != null) {
 			url = getIntent().getStringExtra("URL");
 		} else {
-			url = UrlUtils.MM_M_SEARCH;
+			url = UrlUtils.PXING_SEARCH;
 		}
 		
 //		doAsync(this, this, this);
@@ -105,13 +105,12 @@ public class MSearchEditFragmentActivity extends CommonFragmentActivity {
 	}
 	
 	public void startSearch(String keys){
-		try {
-			keys = URLEncoder.encode(keys, "gb2312");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		//http://m.mm131.com/search.php?text=%C3%C3%C3%C3&page=2
-		String kurl = UrlUtils.MM_M_SEARCH+"text="+keys+"&page=";
+//		try {
+//			keys = URLEncoder.encode(keys, "gb2312");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		String kurl = UrlUtils.PXING_SEARCH+keys;
 		MSearchArticlePullListActivity.startMSearchArticlePullListActivity(this, kurl);
 	}
 

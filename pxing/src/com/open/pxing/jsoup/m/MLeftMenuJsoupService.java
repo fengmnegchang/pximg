@@ -58,13 +58,17 @@ public class MLeftMenuJsoupService extends CommonService {
 			try {
 				/**
 				 */
-				Element globalnavElement = doc.select("nav.slide-menu").first();
-				Elements moduleElements = globalnavElement.select("li");
+				MSlideMenuBean sbean = new MSlideMenuBean();
+				sbean.setHref(href);
+				sbean.setTitle("首页");
+				list.add(sbean);
+				Element globalnavElement = doc.select("ul.main-nav").first();
+				Elements moduleElements = globalnavElement.select("li.menu-item");
 				if (moduleElements != null && moduleElements.size() > 0) {
 					for (int i = 0; i < moduleElements.size(); i++) {
 						Element pElement = moduleElements.get(i);
 						 
-							MSlideMenuBean sbean = new MSlideMenuBean();
+							  sbean = new MSlideMenuBean();
 							try {
 								try {
 									Element aElement = moduleElements.get(i).select("a").first();

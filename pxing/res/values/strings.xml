@@ -5,6 +5,7 @@
 	<string name="pxing_all_desp">pxing all</string>
 	<string name="pxing_webview_desp">pxing webview</string>
 	<string name="pxing_main_list_desp">pxing 主列表</string>
+	<string name="pxing_main_grid_desp">pxing 主列表grid</string>
 	<string name="pxing_left_menu_list_desp">pxing left menu</string>
 	<string name="pxing_slide_menu_desp">pxing slide menu</string>
 	<string name="pxing_search_desp">pxing search</string>

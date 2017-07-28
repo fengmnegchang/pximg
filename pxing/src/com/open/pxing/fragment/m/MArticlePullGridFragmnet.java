@@ -2,7 +2,7 @@
  *****************************************************************************************************************************************************************************
  * 
  * @author :fengguangjing
- * @createTime:2017-6-7下午5:33:37
+ * @createTime:2017-7-28下午4:07:51
  * @version:4.2.4
  * @modifyTime:
  * @modifyAuthor:
@@ -11,53 +11,44 @@
  */
 package com.open.pxing.fragment.m;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response.Listener;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.open.android.bean.db.OpenDBBean;
 import com.open.android.db.service.OpenDBService;
-import com.open.android.fragment.common.CommonPullToRefreshListFragment;
+import com.open.android.fragment.common.CommonPullToRefreshGridFragment;
 import com.open.pxing.activity.m.MImagePullListActivity;
+import com.open.pxing.adapter.m.MArticleGridAdapter;
 import com.open.pxing.adapter.m.MArticleListAdapter;
 import com.open.pxing.bean.m.MArticleBean;
 import com.open.pxing.json.m.MArticleJson;
 import com.open.pxing.jsoup.m.MArticleJsoupService;
-import com.open.pxing.utils.UrlUtils;
 
 /**
- ***************************************************************************************************************************************************************************** 
+ *****************************************************************************************************************************************************************************
  * 
  * @author :fengguangjing
- * @createTime:2017-6-7下午5:33:37
+ * @createTime:2017-7-28下午4:07:51
  * @version:4.2.4
  * @modifyTime:
  * @modifyAuthor:
  * @description:
- ***************************************************************************************************************************************************************************** 
+ *****************************************************************************************************************************************************************************
  */
-public class MArticlePullListFragmnet extends CommonPullToRefreshListFragment<MArticleBean, MArticleJson> {
-	public MArticleListAdapter mMArticleListAdapter;
-
-	public static MArticlePullListFragmnet newInstance(String url, boolean isVisibleToUser) {
-		MArticlePullListFragmnet fragment = new MArticlePullListFragmnet();
+public class MArticlePullGridFragmnet extends CommonPullToRefreshGridFragment<MArticleBean, MArticleJson> {
+	private MArticleGridAdapter mMArticleGridAdapter;
+	
+	public static MArticlePullGridFragmnet newInstance(String url, boolean isVisibleToUser) {
+		MArticlePullGridFragmnet fragment = new MArticlePullGridFragmnet();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
 		return fragment;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -66,9 +57,9 @@ public class MArticlePullListFragmnet extends CommonPullToRefreshListFragment<MA
 	@Override
 	public void initValues() {
 		// TODO Auto-generated method stub
-		mMArticleListAdapter = new MArticleListAdapter(getActivity(), list);
-		mPullToRefreshListView.setAdapter(mMArticleListAdapter);
-		mPullToRefreshListView.setMode(Mode.BOTH);
+		mMArticleGridAdapter = new MArticleGridAdapter(getActivity(), list);
+		mPullToRefreshHeadGridView.setAdapter(mMArticleGridAdapter);
+		mPullToRefreshHeadGridView.setMode(Mode.BOTH);
 	}
 
 	/*
@@ -104,8 +95,8 @@ public class MArticlePullListFragmnet extends CommonPullToRefreshListFragment<MA
 	public void onCallback(MArticleJson result) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
-		Log.i(TAG, "getMode ===" + mPullToRefreshListView.getCurrentMode());
-		if (mPullToRefreshListView.getCurrentMode() == Mode.PULL_FROM_START) {
+		Log.i(TAG, "getMode ===" + mPullToRefreshHeadGridView.getCurrentMode());
+		if (mPullToRefreshHeadGridView.getCurrentMode() == Mode.PULL_FROM_START) {
 			list.clear();
 			list.addAll(result.getList());
 			pageNo = 1;
@@ -114,9 +105,9 @@ public class MArticlePullListFragmnet extends CommonPullToRefreshListFragment<MA
 				list.addAll(result.getList());
 			}
 		}
-		mMArticleListAdapter.notifyDataSetChanged();
+		mMArticleGridAdapter.notifyDataSetChanged();
 		// Call onRefreshComplete when the list has been refreshed.
-		mPullToRefreshListView.onRefreshComplete();
+		mPullToRefreshHeadGridView.onRefreshComplete();
 	}
 	
 	/*
@@ -229,5 +220,4 @@ public class MArticlePullListFragmnet extends CommonPullToRefreshListFragment<MA
 					bean.getHref());
 		}
 	}
-
 }
