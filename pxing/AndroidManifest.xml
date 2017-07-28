@@ -54,6 +54,12 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/pxing_main_list_desp" >
         </activity>
+         <!-- pxing sex列表 -->
+        <activity
+            android:name="com.open.pxing.activity.m.MSexNovelPullListActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/pxing_sex_novel_list_desp" >
+        </activity>
         <!-- pxing 主列表grid -->
         <activity
             android:name="com.open.pxing.activity.m.MArticlePullGridActivity"

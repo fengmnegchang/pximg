@@ -38,7 +38,7 @@ import com.open.pxing.utils.UrlUtils;
  *****************************************************************************************************************************************************************************
  */
 public class MImagePagerAdapterFragmentActivity extends CommonFragmentActivity<MArticleJson> {
-	private String url = UrlUtils.MM_M_IMAGE;
+	private String url = UrlUtils.PXING_IMAGE;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,7 +60,7 @@ public class MImagePagerAdapterFragmentActivity extends CommonFragmentActivity<M
 		if (getIntent().getStringExtra("URL") != null) {
 			url = getIntent().getStringExtra("URL");
 		} else {
-			url = UrlUtils.MM_M_IMAGE;
+			url = UrlUtils.PXING_IMAGE;
 		}
 		// TODO Auto-generated method stub
 		MArticleJson mShowJson = (MArticleJson) getIntent().getSerializableExtra("SHOW_JSON");
