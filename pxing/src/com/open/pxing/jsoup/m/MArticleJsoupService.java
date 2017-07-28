@@ -748,7 +748,7 @@ public class MArticleJsoupService extends CommonService {
 								try {
 									Element imgElement = moduleElements.get(i).select("img").first();
 									if (imgElement != null) {
-										String dataimg = "https:"+imgElement.attr("src");
+										String dataimg = "https:"+imgElement.attr("src").replace("						", "").replace(" ", "").replace("\t\t", "").replace("\t", "");
 										Log.i(TAG, "i==" + i + ";dataimg==" + dataimg);
 										sbean.setDataimg(dataimg);
 									}
@@ -787,7 +787,8 @@ public class MArticleJsoupService extends CommonService {
                     		//"bigPic": "//img.pximg.com/2017/07/42e36be241d9db6.jpg!/format/webp"},
                     		String bigpic = lineTxt.replace("\"bigPic\": \"", "").replace("\"},", "");
                     		System.out.println("bigpic=="+bigpic);
-                    		sbean.setDataimg("https:"+bigpic);
+                    		bigpic = "https:"+bigpic.replace("						", "").replace(" ", "").replace("\t\t", "").replace("\t", "");
+                    		sbean.setDataimg(bigpic);
                     		list.add(sbean);
                     	}
                         System.out.println(lineTxt);
