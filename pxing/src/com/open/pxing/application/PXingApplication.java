@@ -14,22 +14,16 @@ package com.open.pxing.application;
 
 
 
-import android.app.Application;
+import java.io.File;
 
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.open.android.adapter.DefaultWebSocketAdapterFactory;
-import com.open.android.adapter.ImageAdapter;
-import com.open.android.adapter.WXHttpAdapter;
-import com.open.android.module.WXEventModule;
-import com.open.android.module.WeexModalUIModule;
-import com.open.android.module.WeexModule;
-import com.open.pxing.utils.AuthImageDownloader;
-import com.taobao.weex.InitConfig;
-import com.taobao.weex.WXSDKEngine;
+import android.app.Application;
+import android.os.Environment;
+
+import com.facebook.cache.disk.DiskCacheConfig;
+import com.facebook.common.util.ByteConstants;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.open.pxing.utils.ElnImageDownloaderFetcher;
 
 /**
  *****************************************************************************************************************************************************************************
@@ -46,7 +40,17 @@ public class PXingApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        DiskCacheConfig diskCacheConfig = DiskCacheConfig.newBuilder(this)
+                .setBaseDirectoryPath(new File(Environment.getExternalStorageDirectory() +"/"+ getPackageName()+"/"))
+                .setBaseDirectoryName("image_cache")
+                .setMaxCacheSize(50 * ByteConstants.MB)
+                .setMaxCacheSizeOnLowDiskSpace(10 * ByteConstants.MB)
+                .setMaxCacheSizeOnVeryLowDiskSpace(2 * ByteConstants.MB)
+                .build();
+        ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
+                .setNetworkFetcher(new ElnImageDownloaderFetcher())
+                .setMainDiskCacheConfig(diskCacheConfig).build();
+        Fresco.initialize(this, config);
        
 //        ImageLoaderConfiguration configuration =
 //                new ImageLoaderConfiguration
@@ -66,54 +70,54 @@ public class PXingApplication extends Application {
 //                .imageDownloader(new AuthImageDownloader(this))
 //                .build();
         
-        ImageLoaderConfiguration configuration =   new ImageLoaderConfiguration.Builder(this)
-        		.threadPriority(Thread.NORM_PRIORITY - 2)
-        		.denyCacheImageMultipleSizesInMemory()
-                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
-                .diskCacheSize(50 * 1024 * 1024) // 50 Mb
-                .tasksProcessingOrder(QueueProcessingType.LIFO)
-                .writeDebugLogs() // Remove for release app
-                .memoryCache(new WeakMemoryCache())
-                .imageDownloader(new AuthImageDownloader(this))
-                .build();
-         
-        //Initialize ImageLoader with configuration.
-        ImageLoader.getInstance().init(configuration);
-        
-        InitConfig config=new InitConfig.Builder().setHttpAdapter(new WXHttpAdapter()).setImgAdapter(new ImageAdapter()).setWebSocketAdapterFactory(new DefaultWebSocketAdapterFactory()).build();
-        WXSDKEngine.initialize(this,config);
-        try {
-			WXSDKEngine.registerModule("weexModule", WeexModule.class);
-			WXSDKEngine.registerModule("weexModalUIModule", WeexModalUIModule.class);
-			WXSDKEngine.registerModule("weexEventModule", WXEventModule.class);
-			//WXSDKEngine.registerModule("weexJsoupModule", WeexJsoupModule.class);
-//			WXSDKEngine.registerModule("actionSheet", WXActionSheetModule.class);
-//			 // 注册 webview module
-//			WXSDKEngine.registerModule("mywebview", WeeXWebViewModule.class);
-//	        // 注册 webview 组件
-//			WXSDKEngine.registerComponent("web", WeeXWeb.class);
-//			
-//			WXSDKEngine.registerComponent("myinput", MyInput.class);
-//			WXSDKEngine.registerComponent("myrichtext",RichText.class);
-//			WXSDKEngine.registerComponent(
-//				        new SimpleComponentHolder(
-//				          WeeXSlider.class,
-//				          new WeeXSlider.Creator()
-//				        ),
-//				        true,
-//				       "mypager"
-//				      );
-//			WXSDKEngine.registerComponent(
-//			        new SimpleComponentHolder(
-//			        		WeeXText.class,
-//			                new WeeXText.Creator()
-//			              ),
-//			              false,
-//			              "mystockview"
-//			            );
-//			WXSDKEngine.registerDomObject("mystockview", WeeXTextDomObject.class);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//        ImageLoaderConfiguration configuration =   new ImageLoaderConfiguration.Builder(this)
+//        		.threadPriority(Thread.NORM_PRIORITY - 2)
+//        		.denyCacheImageMultipleSizesInMemory()
+//                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+//                .diskCacheSize(50 * 1024 * 1024) // 50 Mb
+//                .tasksProcessingOrder(QueueProcessingType.LIFO)
+//                .writeDebugLogs() // Remove for release app
+//                .memoryCache(new WeakMemoryCache())
+//                .imageDownloader(new AuthImageDownloader(this))
+//                .build();
+//         
+//        //Initialize ImageLoader with configuration.
+//        ImageLoader.getInstance().init(configuration);
+//        
+//        InitConfig config=new InitConfig.Builder().setHttpAdapter(new WXHttpAdapter()).setImgAdapter(new ImageAdapter()).setWebSocketAdapterFactory(new DefaultWebSocketAdapterFactory()).build();
+//        WXSDKEngine.initialize(this,config);
+//        try {
+//			WXSDKEngine.registerModule("weexModule", WeexModule.class);
+//			WXSDKEngine.registerModule("weexModalUIModule", WeexModalUIModule.class);
+//			WXSDKEngine.registerModule("weexEventModule", WXEventModule.class);
+//			//WXSDKEngine.registerModule("weexJsoupModule", WeexJsoupModule.class);
+////			WXSDKEngine.registerModule("actionSheet", WXActionSheetModule.class);
+////			 // 注册 webview module
+////			WXSDKEngine.registerModule("mywebview", WeeXWebViewModule.class);
+////	        // 注册 webview 组件
+////			WXSDKEngine.registerComponent("web", WeeXWeb.class);
+////			
+////			WXSDKEngine.registerComponent("myinput", MyInput.class);
+////			WXSDKEngine.registerComponent("myrichtext",RichText.class);
+////			WXSDKEngine.registerComponent(
+////				        new SimpleComponentHolder(
+////				          WeeXSlider.class,
+////				          new WeeXSlider.Creator()
+////				        ),
+////				        true,
+////				       "mypager"
+////				      );
+////			WXSDKEngine.registerComponent(
+////			        new SimpleComponentHolder(
+////			        		WeeXText.class,
+////			                new WeeXText.Creator()
+////			              ),
+////			              false,
+////			              "mystockview"
+////			            );
+////			WXSDKEngine.registerDomObject("mystockview", WeeXTextDomObject.class);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
     }
 }

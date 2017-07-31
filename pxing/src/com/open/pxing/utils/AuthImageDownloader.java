@@ -102,7 +102,7 @@ public class AuthImageDownloader extends BaseImageDownloader {
 		switch (Scheme.ofUri(imageUri)) {
 		case HTTP:
 		case HTTPS:
-			return getStreamFromNetwork2(imageUri, extra);
+			return getStreamFromNetwork(imageUri, extra);
 		case FILE:
 			return getStreamFromFile(imageUri, extra);
 		case CONTENT:

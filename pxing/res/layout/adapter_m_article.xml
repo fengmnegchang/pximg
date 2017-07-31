@@ -24,7 +24,18 @@
         android:layout_marginTop="3dp"
         android:layout_below="@+id/text_title"
         android:scaleType="fitXY"
+        android:visibility="gone"
         android:src="@drawable/default_img" />
+    
+    <com.facebook.drawee.view.SimpleDraweeView
+	    android:id="@+id/draweeview"
+	    android:layout_width="match_parent"
+	    android:layout_height="400dp"
+	    android:gravity="center"
+        android:layout_marginTop="3dp"
+        android:layout_below="@+id/text_title"
+        android:scaleType="fitXY"
+	  />
 
     <TextView
         android:id="@+id/text_camLiDes"
