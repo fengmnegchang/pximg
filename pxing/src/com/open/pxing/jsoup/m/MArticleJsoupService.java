@@ -137,6 +137,96 @@ public class MArticleJsoupService extends CommonService {
 		return list;
 	}
 	
+	public static List<MArticleBean> parsePXMImageFootList(String href, int pageNo) {
+		List<MArticleBean> list = new ArrayList<MArticleBean>();
+		try {
+			// href = makeURL(href, new HashMap<String, Object>() {
+			// {
+			// }
+			// });
+		    
+			Document doc;
+			doc = Jsoup.connect(href)
+					.userAgent(UrlUtils.userAgent)
+//					.header("Host","www.pximg.com")
+					.cookie("Cookie", "UM_distinctid=15d4f9ce60a4eb-050c6be969bcef-35414878-1aeaa0-15d4f9ce60b3bc; CNZZDATA1260136144=1243021942-1500278440-https%253A%252F%252Fwww.baidu.com%252F%7C1501116123; Hm_lvt_21e82dda40c2143d1c3187f1c80935ec=1500279272,1500968826,1501061381; Hm_lpvt_21e82dda40c2143d1c3187f1c80935ec=1501119552")
+					.timeout(10000).get();
+			Log.i(TAG, "url = " + href);
+
+//			Document doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			// System.out.println(doc.toString());
+			try {
+				 Element globalnavElement = doc.select("div.more").first();
+				Elements moduleElements = globalnavElement.select("a");
+				if (moduleElements != null && moduleElements.size() > 0) {
+					for (int i = 0; i < moduleElements.size(); i++) {
+							MArticleBean sbean = new MArticleBean();
+							try {
+								try {
+									Element aElement = moduleElements.get(i).select("a").first();
+									if (aElement != null) {
+										String hrefa = aElement.attr("href");
+										Log.i(TAG, "i==" + i + ";hrefa==" + hrefa);
+										sbean.setHref(hrefa);
+									}
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+
+								try {
+									Element imgElement = moduleElements.get(i).select("img").first();
+									if (imgElement != null) {
+										String src = "https:"+imgElement.attr("lazysrc");
+										Log.i(TAG, "i==" + i + ";src==" + src);
+										sbean.setSrc(src);
+									}
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+
+								try {
+									Element imgElement = moduleElements.get(i).select("img").first();
+									if (imgElement != null) {
+										String alt = imgElement.attr("alt");
+										if(alt.contains("%u")){
+											alt = EscapeUnescapeUtils.unescape(alt);
+										}
+										Log.i(TAG, "i==" + i + ";alt==" + alt);
+										sbean.setAlt(alt);
+									}
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+
+								try {
+									Element imgElement = moduleElements.get(i).select("span.text").first();
+									if (imgElement != null) {
+										String meta = imgElement.text();
+										Log.i(TAG, "i==" + i + ";meta==" + meta);
+										sbean.setMeta(meta);
+									}
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+ 
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+							list.add(sbean);
+					}
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 	public static List<MArticleBean> parseSexNovelList(String href, int pageNo) {
 		List<MArticleBean> list = new ArrayList<MArticleBean>();
 		try {

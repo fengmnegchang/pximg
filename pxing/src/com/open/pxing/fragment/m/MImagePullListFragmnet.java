@@ -68,13 +68,13 @@ public class MImagePullListFragmnet extends CommonPullToRefreshListFragment<MArt
 	public void initValues() {
 		// TODO Auto-generated method stub
 //		mPullToRefreshListView.getRefreshableView().addFooterView(footview);
-//		mPullToRefreshListView.getRefreshableView().addHeaderView(headview);
+		mPullToRefreshListView.getRefreshableView().addHeaderView(headview);
 //		MImageHeadFragmnet hfragment = MImageHeadFragmnet.newInstance(url, true);
 //		getChildFragmentManager().beginTransaction().replace(R.id.id_expend_foot, hfragment).commit();
 //		
 //		
-//		MImageFootExpendListFragmnet ffragment = MImageFootExpendListFragmnet.newInstance(url, true);
-//		getChildFragmentManager().beginTransaction().replace(R.id.id_m_head, ffragment).commit();
+		MImageFootExpendGridFragmnet ffragment = MImageFootExpendGridFragmnet.newInstance(url, true);
+		getChildFragmentManager().beginTransaction().replace(R.id.id_m_head, ffragment).commit();
 		
 		mMImageListAdapter = new MImageListAdapter(getActivity(), list);
 		mPullToRefreshListView.setAdapter(mMImageListAdapter);

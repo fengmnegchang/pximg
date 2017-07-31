@@ -112,6 +112,12 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/pxing_image_list_desp" >
         </activity>
+        <!-- pxing 看图foot -->
+        <activity
+            android:name="com.open.pxing.activity.m.MImageFootListActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/pxing_image_foot_desp" >
+        </activity>
         <!-- pxing 看图pager -->
         <activity
             android:name="com.open.pxing.activity.m.MImagePagerAdapterFragmentActivity"
