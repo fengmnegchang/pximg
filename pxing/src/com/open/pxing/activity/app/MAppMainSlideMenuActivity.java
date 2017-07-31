@@ -36,7 +36,7 @@ import com.open.pxing.utils.UrlUtils;
  *****************************************************************************************************************************************************************************
  */
 public class MAppMainSlideMenuActivity extends SlidingFragmentActivity {
-	private String url = UrlUtils.MM_M;
+	private String url = UrlUtils.PXING_NEW;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -67,18 +67,18 @@ public class MImagePullListFragmnet extends CommonPullToRefreshListFragment<MArt
 	@Override
 	public void initValues() {
 		// TODO Auto-generated method stub
-		mPullToRefreshListView.getRefreshableView().addFooterView(footview);
-		mPullToRefreshListView.getRefreshableView().addHeaderView(headview);
-		MImageHeadFragmnet hfragment = MImageHeadFragmnet.newInstance(url, true);
-		getChildFragmentManager().beginTransaction().replace(R.id.id_expend_foot, hfragment).commit();
-		
-		
-		MImageFootExpendListFragmnet ffragment = MImageFootExpendListFragmnet.newInstance(url, true);
-		getChildFragmentManager().beginTransaction().replace(R.id.id_m_head, ffragment).commit();
+//		mPullToRefreshListView.getRefreshableView().addFooterView(footview);
+//		mPullToRefreshListView.getRefreshableView().addHeaderView(headview);
+//		MImageHeadFragmnet hfragment = MImageHeadFragmnet.newInstance(url, true);
+//		getChildFragmentManager().beginTransaction().replace(R.id.id_expend_foot, hfragment).commit();
+//		
+//		
+//		MImageFootExpendListFragmnet ffragment = MImageFootExpendListFragmnet.newInstance(url, true);
+//		getChildFragmentManager().beginTransaction().replace(R.id.id_m_head, ffragment).commit();
 		
 		mMImageListAdapter = new MImageListAdapter(getActivity(), list);
 		mPullToRefreshListView.setAdapter(mMImageListAdapter);
-		mPullToRefreshListView.setMode(Mode.BOTH);
+		mPullToRefreshListView.setMode(Mode.PULL_FROM_START);
 	}
 
 	/*
@@ -90,8 +90,7 @@ public class MImagePullListFragmnet extends CommonPullToRefreshListFragment<MArt
 	@Override
 	public MArticleJson call() throws Exception {
 		// TODO Auto-generated method stub
-		MArticleJson mMArticleJson = new MArticleJson();
-		mMArticleJson.setList(MArticleJsoupService.parseImageList(url, pageNo));
+		MArticleJson mMArticleJson = MArticleJsoupService.parsePXImagePagerList(url,position);
 		return mMArticleJson;
 	}
 

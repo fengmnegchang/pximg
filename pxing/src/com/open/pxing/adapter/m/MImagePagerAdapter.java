@@ -17,12 +17,20 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.animated.base.AbstractAnimatedDrawable;
+import com.facebook.imagepipeline.image.ImageInfo;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.open.android.adapter.CommonPagerAdapter;
@@ -46,7 +54,7 @@ import com.open.pxing.bean.m.MArticleBean;
  *****************************************************************************************************************************************************************************
  */
 public class MImagePagerAdapter extends CommonPagerAdapter<MArticleBean>{
-
+	public AbstractAnimatedDrawable animatable;
 	public MImagePagerAdapter(Context mContext, List<MArticleBean> list) {
 		super(mContext, list);
 	}
@@ -56,6 +64,7 @@ public class MImagePagerAdapter extends CommonPagerAdapter<MArticleBean>{
 		super(mContext, list);
 		this.weakActivityReferenceHandler = weakActivityReferenceHandler;
 	}
+	
 	@Override
 	public Object instantiateItem(ViewGroup container, int position) {
 		final MArticleBean bean = (MArticleBean) getItem(position);
@@ -63,11 +72,43 @@ public class MImagePagerAdapter extends CommonPagerAdapter<MArticleBean>{
 		View convertView = LayoutInflater.from(mContext).inflate(R.layout.adapter_m_image_viewpager, null);
 		mViewHolder.imageview = (ZoomImageView) convertView.findViewById(R.id.imageview);
 		mViewHolder.txt_save = (TextView) convertView.findViewById(R.id.txt_save);
+		mViewHolder.draweeview = (SimpleDraweeView) convertView.findViewById(R.id.draweeview);
 		if (bean != null) {
 			if (bean.getDataimg() != null && bean.getDataimg().length() > 0) {
-				DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.common_v4).showImageForEmptyUri(R.drawable.common_v4).showImageOnFail(R.drawable.common_v4)
-						.cacheInMemory().cacheOnDisc().build();
-				ImageLoader.getInstance().displayImage(bean.getDataimg(), mViewHolder.imageview, options, null);
+//				DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.common_v4).showImageForEmptyUri(R.drawable.common_v4).showImageOnFail(R.drawable.common_v4)
+//						.cacheInMemory().cacheOnDisc().build();
+//				ImageLoader.getInstance().displayImage(bean.getDataimg(), mViewHolder.imageview, options, null);
+				ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
+			        @Override
+			        public void onFinalImageSet(String id,  ImageInfo imageInfo,  android.graphics.drawable.Animatable anim) {
+			            if (anim != null) {
+			                anim.start();
+			            }
+			            animatable = (AbstractAnimatedDrawable) anim;
+			        }
+			    };
+
+			    DraweeController controller = Fresco.newDraweeControllerBuilder()
+			            .setUri(Uri.parse(bean.getDataimg()))
+			            .setControllerListener(controllerListener)
+			            .build();
+			    mViewHolder.draweeview.setController(controller);
+
+
+//			    final Animatable animatable = sdv.getController().getAnimatable();
+			    mViewHolder.draweeview.setOnClickListener(new View.OnClickListener() {
+			        @Override
+			        public void onClick(View v) {
+			            if (animatable != null) {
+			                if (animatable.isRunning()) {
+			                	animatable.stop();
+			                } else {
+			                	animatable.start();
+			                }
+			            }
+			        }
+			    });
+				
 			}
 		}
 
@@ -100,10 +141,10 @@ public class MImagePagerAdapter extends CommonPagerAdapter<MArticleBean>{
 		       		       openbean.setTypename(0+"");
 	                	   OpenDBService.insert(mContext, openbean);
 	                	   
-	                	   mViewHolder.imageview.setDrawingCacheEnabled(true);  
-	                       Bitmap imageBitmap = mViewHolder.imageview.getDrawingCache();  
+	                	   mViewHolder.draweeview.setDrawingCacheEnabled(true);  
+	                       Bitmap imageBitmap = mViewHolder.draweeview.getDrawingCache();  
 	                       if (imageBitmap != null) {  
-	                           new ImageAsyncTask(mContext,  mViewHolder.imageview,bean.getDataimg()).execute(imageBitmap);  
+	                           new ImageAsyncTask(mContext,  mViewHolder.draweeview,bean.getDataimg()).execute(imageBitmap);  
 	                       }  
 	                   }  
 	               });  
@@ -181,5 +222,6 @@ public class MImagePagerAdapter extends CommonPagerAdapter<MArticleBean>{
 	private class ViewHolder {
 		ZoomImageView imageview;
 		TextView txt_save;
+		SimpleDraweeView draweeview;
 	}
 }

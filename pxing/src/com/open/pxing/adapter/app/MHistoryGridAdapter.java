@@ -14,6 +14,7 @@ package com.open.pxing.adapter.app;
 import java.util.List;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +23,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.animated.base.AbstractAnimatedDrawable;
+import com.facebook.imagepipeline.image.ImageInfo;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -43,7 +51,7 @@ import com.open.pxing.bean.app.OpenDBListBean;
  ***************************************************************************************************************************************************************************** 
  */
 public class MHistoryGridAdapter extends CommonAdapter<OpenDBListBean> {
-
+	public AbstractAnimatedDrawable animatable;
 	public MHistoryGridAdapter(Context mContext, List<OpenDBListBean> list) {
 		super(mContext, list);
 	}
@@ -58,6 +66,7 @@ public class MHistoryGridAdapter extends CommonAdapter<OpenDBListBean> {
 			viewHolder.lay_grid = (LinearLayout) convertView
 					.findViewById(R.id.lay_grid);
 			viewHolder.textdate = (TextView) convertView.findViewById(R.id.textdate);
+			
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -69,14 +78,45 @@ public class MHistoryGridAdapter extends CommonAdapter<OpenDBListBean> {
 		viewHolder.lay_grid.removeAllViews();
 		for(final OpenDBBean bean:json.getList()){
 			View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_app_collection, null);
-			ImageView  imageview = (ImageView) view.findViewById(R.id.imageview);
+			SimpleDraweeView draweeview = (SimpleDraweeView) convertView.findViewById(R.id.draweeview);
 			TextView texttitle = (TextView) view.findViewById(R.id.texttitle);
 			 texttitle.setText(bean.getTitle());
 			if (bean.getImgsrc()!= null && bean.getImgsrc().length() > 0) {
-				DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.default_img).showImageForEmptyUri(R.drawable.default_img).showImageOnFail(R.drawable.default_img)
-//						.cacheInMemory().cacheOnDisc().build();
-				.cacheInMemory().cacheOnDisc().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).build();
-				ImageLoader.getInstance().displayImage(bean.getImgsrc(), imageview, options, getImageLoadingListener());
+//				DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.default_img).showImageForEmptyUri(R.drawable.default_img).showImageOnFail(R.drawable.default_img)
+////						.cacheInMemory().cacheOnDisc().build();
+//				.cacheInMemory().cacheOnDisc().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).build();
+//				ImageLoader.getInstance().displayImage(bean.getImgsrc(), imageview, options, getImageLoadingListener());
+			
+				ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
+			        @Override
+			        public void onFinalImageSet(String id,  ImageInfo imageInfo,  android.graphics.drawable.Animatable anim) {
+			            if (anim != null) {
+			                anim.start();
+			            }
+			            animatable = (AbstractAnimatedDrawable) anim;
+			        }
+			    };
+
+			    DraweeController controller = Fresco.newDraweeControllerBuilder()
+			            .setUri(Uri.parse(bean.getImgsrc()))
+			            .setControllerListener(controllerListener)
+			            .build();
+			    draweeview.setController(controller);
+
+
+//			    final Animatable animatable = sdv.getController().getAnimatable();
+			    draweeview.setOnClickListener(new View.OnClickListener() {
+			        @Override
+			        public void onClick(View v) {
+			            if (animatable != null) {
+			                if (animatable.isRunning()) {
+			                	animatable.stop();
+			                } else {
+			                	animatable.start();
+			                }
+			            }
+			        }
+			    });
 			}
 			view.setOnClickListener(new OnClickListener() {
 				@Override

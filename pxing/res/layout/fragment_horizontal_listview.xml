@@ -5,7 +5,7 @@
     >
  
 
-   <com.open.mm.widget.HorizontalListView
+   <com.open.pxing.widget.HorizontalListView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/pull_refresh_list"

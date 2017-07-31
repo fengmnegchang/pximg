@@ -14,12 +14,20 @@ package com.open.pxing.adapter.m;
 import java.util.List;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.animated.base.AbstractAnimatedDrawable;
+import com.facebook.imagepipeline.image.ImageInfo;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -40,7 +48,7 @@ import com.open.pxing.bean.m.MArticleBean;
  *****************************************************************************************************************************************************************************
  */
 public class MArticleGridAdapter extends CommonAdapter<MArticleBean>{
-
+	public AbstractAnimatedDrawable animatable;
 	public MArticleGridAdapter(Context mContext, List<MArticleBean> list) {
 		super(mContext, list);
 	}
@@ -53,6 +61,7 @@ public class MArticleGridAdapter extends CommonAdapter<MArticleBean>{
 			viewHolder.text_title = (TextView) convertView.findViewById(R.id.text_title);
 			viewHolder.text_camLiDes = (TextView) convertView.findViewById(R.id.text_camLiDes);
 			viewHolder.imageview = (ImageView) convertView.findViewById(R.id.imageview);
+			viewHolder.draweeview = (SimpleDraweeView) convertView.findViewById(R.id.draweeview);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -64,13 +73,43 @@ public class MArticleGridAdapter extends CommonAdapter<MArticleBean>{
 			//https://img.pximg.com/2017/07/d264b5b3ac0169a.jpg!pximg/both/205x277
 			 
 			if (bean.getSrc()!= null && bean.getSrc().length() > 0) {
-				DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.default_img).showImageForEmptyUri(R.drawable.default_img).showImageOnFail(R.drawable.default_img)
-//						.cacheInMemory().cacheOnDisc().build();
-				.cacheInMemory().cacheOnDisc().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).build();
-				ImageLoader.getInstance().displayImage(bean.getSrc(), viewHolder.imageview, options, getImageLoadingListener());
+//				DisplayImageOptions options = new DisplayImageOptions.Builder().showStubImage(R.drawable.default_img).showImageForEmptyUri(R.drawable.default_img).showImageOnFail(R.drawable.default_img)
+////						.cacheInMemory().cacheOnDisc().build();
+//				.cacheInMemory().cacheOnDisc().imageScaleType(ImageScaleType.EXACTLY_STRETCHED).build();
+//				ImageLoader.getInstance().displayImage(bean.getSrc(), viewHolder.imageview, options, getImageLoadingListener());
+				ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
+			        @Override
+			        public void onFinalImageSet(String id,  ImageInfo imageInfo,  android.graphics.drawable.Animatable anim) {
+			            if (anim != null) {
+			                anim.start();
+			            }
+			            animatable = (AbstractAnimatedDrawable) anim;
+			        }
+			    };
+
+			    DraweeController controller = Fresco.newDraweeControllerBuilder()
+			            .setUri(Uri.parse(bean.getSrc()))
+			            .setControllerListener(controllerListener)
+			            .build();
+			    viewHolder.draweeview.setController(controller);
+
+
+//			    final Animatable animatable = sdv.getController().getAnimatable();
+			    viewHolder.draweeview.setOnClickListener(new View.OnClickListener() {
+			        @Override
+			        public void onClick(View v) {
+			            if (animatable != null) {
+			                if (animatable.isRunning()) {
+			                	animatable.stop();
+			                } else {
+			                	animatable.start();
+			                }
+			            }
+			        }
+			    });
 			}
 
-			viewHolder.imageview.setOnClickListener(new OnClickListener() {
+			viewHolder.draweeview.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					CommonWebViewActivity.startCommonWebViewActivity(mContext, bean.getHref());
@@ -84,5 +123,6 @@ public class MArticleGridAdapter extends CommonAdapter<MArticleBean>{
 	class ViewHolder {
 		TextView text_title,text_camLiDes;
 		ImageView imageview;
+		SimpleDraweeView draweeview;
 	}
 }

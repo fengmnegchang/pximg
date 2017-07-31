@@ -100,9 +100,13 @@ public class MMainIndicatorFragment extends BaseV4Fragment<MSlideMenuJson, MMain
 			MSlideMenuBean bean = result.getList().get(i);
 			titleList.add(bean.getTitle());
 			if(i==0){
-				fragment = MArticlePullListFragmnet.newInstance(bean.getHref(),true);
+				fragment = MArticlePullGridFragmnet.newInstance(bean.getHref(),true);
 			}else{
-				fragment = MArticlePullListFragmnet.newInstance(bean.getHref(),false);
+				if("性爱技巧".equals(bean.getTitle())){
+					fragment = MSexNovelPullListFragmnet.newInstance(bean.getHref(), false);
+				}else{
+					fragment = MArticlePullGridFragmnet.newInstance(bean.getHref(),false);
+				}
 			}
 			listRankFragment.add(fragment);
 		}

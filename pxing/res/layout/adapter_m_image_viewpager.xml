@@ -10,18 +10,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
-        android:src="@drawable/common_v4" />
+        android:src="@drawable/common_v4"
+        android:visibility="gone" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/draweeview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter" />
 
     <TextView
         android:id="@+id/txt_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="保存" 
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_margin="20dp"
-        android:textColor="#ffffff"
         android:background="#000000"
-        />
+        android:text="保存"
+        android:textColor="#ffffff" />
 
 </RelativeLayout>
