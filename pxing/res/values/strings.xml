@@ -5,6 +5,8 @@
 	<string name="pxing_all_desp">pxing all</string>
 	<string name="pxing_webview_desp">pxing webview</string>
 	<string name="pxing_main_list_desp">pxing 主列表</string>
+	<string name="pxing_media_player_desp">pxing 播放本地音频</string>
+	<string name="pxing_video_desp">pxing 播放本地视频</string>
 	<string name="pxing_sex_novel_list_desp">pxing sex列表</string>
 	<string name="pxing_main_grid_desp">pxing 主列表grid</string>
 	<string name="pxing_left_menu_list_desp">pxing left menu</string>

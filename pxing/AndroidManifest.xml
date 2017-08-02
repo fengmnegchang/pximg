@@ -54,6 +54,18 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/pxing_main_list_desp" >
         </activity>
+         <!-- pxing 播放本地音频 -->
+        <activity
+            android:name="com.open.pxing.activity.m.MMediaPlayerActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/pxing_media_player_desp" >
+        </activity>
+        <!-- pxing 播放本地视频 -->
+        <activity
+            android:name="com.open.pxing.activity.m.MVideoViewActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/pxing_video_desp" >
+        </activity>
          <!-- pxing sex列表 -->
         <activity
             android:name="com.open.pxing.activity.m.MSexNovelPullListActivity"
