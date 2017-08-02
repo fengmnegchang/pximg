@@ -11,10 +11,16 @@
  */
 package com.open.pxing.fragment.pc;
 
+import java.util.List;
+
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
+import com.open.android.utils.NetWorkUtils;
 import com.open.pxing.R;
 import com.open.pxing.activity.pc.PCImagePagerAdapterFragmentActivity;
 import com.open.pxing.adapter.m.MImageListAdapter;
@@ -74,7 +80,26 @@ public class PCImagePullListFragmnet extends MImagePullListFragmnet {
 	public MArticleJson call() throws Exception {
 		// TODO Auto-generated method stub
 		MArticleJson mMArticleJson = new MArticleJson();
-		mMArticleJson.setList(MArticleJsoupService.parsePCImageList(url, pageNo));
+		String typename = "MArticleJsoupService-parsePCImageList-"+pageNo;
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mMArticleJson.setList(MArticleJsoupService.parsePCImageList(url, pageNo));
+			try {
+				//数据存储
+				Gson gson = new Gson();
+				OpenDBBean  openbean = new OpenDBBean();
+	    	    openbean.setUrl(url);
+	    	    openbean.setTypename(typename);
+			    openbean.setTitle(gson.toJson(mMArticleJson));
+			    OpenDBService.insert(getActivity(), openbean);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			List<OpenDBBean> beanlist =  OpenDBService.queryListType(getActivity(), url,typename);
+			String result = beanlist.get(0).getTitle();
+			Gson gson = new Gson();
+			mMArticleJson = gson.fromJson(result, MArticleJson.class);
+		}
 		return mMArticleJson;
 	}
 	

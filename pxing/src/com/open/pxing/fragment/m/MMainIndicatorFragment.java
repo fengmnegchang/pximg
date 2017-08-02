@@ -22,12 +22,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.open.android.adapter.CommonFragmentPagerAdapter;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.indicator.TabPageIndicator;
 import com.open.pxing.R;
 import com.open.pxing.bean.m.MSlideMenuBean;
+import com.open.pxing.json.m.MArticleJson;
 import com.open.pxing.json.m.MSlideMenuJson;
+import com.open.pxing.jsoup.m.MArticleJsoupService;
 import com.open.pxing.jsoup.m.MLeftMenuJsoupService;
 
 /**
@@ -83,7 +89,26 @@ public class MMainIndicatorFragment extends BaseV4Fragment<MSlideMenuJson, MMain
 	public MSlideMenuJson call() throws Exception {
 		// TODO Auto-generated method stub
 		MSlideMenuJson mMSlideMenuJson = new MSlideMenuJson();
-		mMSlideMenuJson.setList(MLeftMenuJsoupService.parseList(url, pageNo));
+		String typename = "MLeftMenuJsoupService-parseList-"+pageNo;
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mMSlideMenuJson.setList(MLeftMenuJsoupService.parseList(url, pageNo));
+			try {
+				//数据存储
+				Gson gson = new Gson();
+				OpenDBBean  openbean = new OpenDBBean();
+	    	    openbean.setUrl(url);
+	    	    openbean.setTypename(typename);
+			    openbean.setTitle(gson.toJson(mMSlideMenuJson));
+			    OpenDBService.insert(getActivity(), openbean);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			List<OpenDBBean> beanlist =  OpenDBService.queryListType(getActivity(), url,typename);
+			String result = beanlist.get(0).getTitle();
+			Gson gson = new Gson();
+			mMSlideMenuJson = gson.fromJson(result, MSlideMenuJson.class);
+		}
 		return mMSlideMenuJson;
 	}
 
@@ -91,6 +116,9 @@ public class MMainIndicatorFragment extends BaseV4Fragment<MSlideMenuJson, MMain
 	public void onCallback(MSlideMenuJson result) {
 		// TODO Auto-generated method stub
 		super.onCallback(result);
+		if(result==null){
+			return;
+		}
 		list.clear();
 		list.addAll(result.getList());
 		titleList.clear();

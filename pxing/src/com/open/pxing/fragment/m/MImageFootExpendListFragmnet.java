@@ -21,7 +21,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.android.view.ExpendListView;
 import com.open.pxing.R;
 import com.open.pxing.adapter.m.MImageFootListAdapter;
@@ -82,7 +86,26 @@ public class MImageFootExpendListFragmnet extends BaseV4Fragment<MArticleJson, M
 	public MArticleJson call() throws Exception {
 		// TODO Auto-generated method stub
 		MArticleJson mMArticleJson = new MArticleJson();
-		mMArticleJson.setList(MArticleJsoupService.parseFootList(url, pageNo));
+		String typename = "MArticleJsoupService-MArticleJsoupService-"+pageNo;
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mMArticleJson.setList(MArticleJsoupService.parseFootList(url, pageNo));
+			try {
+				//数据存储
+				Gson gson = new Gson();
+				OpenDBBean  openbean = new OpenDBBean();
+	    	    openbean.setUrl(url);
+	    	    openbean.setTypename(typename);
+			    openbean.setTitle(gson.toJson(mMArticleJson));
+			    OpenDBService.insert(getActivity(), openbean);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			List<OpenDBBean> beanlist =  OpenDBService.queryListType(getActivity(), url,typename);
+			String result = beanlist.get(0).getTitle();
+			Gson gson = new Gson();
+			mMArticleJson = gson.fromJson(result, MArticleJson.class);
+		}
 		return mMArticleJson;
 	}
 
@@ -95,6 +118,9 @@ public class MImageFootExpendListFragmnet extends BaseV4Fragment<MArticleJson, M
 	 */
 	@Override
 	public void onCallback(MArticleJson result) {
+		if(result==null){
+			return;
+		}
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 		list.clear();

@@ -11,6 +11,8 @@
  */
 package com.open.pxing.fragment.m;
 
+import java.util.List;
+
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -24,7 +26,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.android.widget.OpenClickableSpan;
 import com.open.pxing.R;
 import com.open.pxing.bean.m.MArticleBean;
@@ -82,7 +88,26 @@ public class MImageHeadFragmnet extends BaseV4Fragment<MArticleJson, MImageHeadF
 	public MArticleJson call() throws Exception {
 		// TODO Auto-generated method stub
 		MArticleJson mMArticleJson = new MArticleJson();
-		mMArticleJson.setList(MArticleJsoupService.parseImageList(url, pageNo));
+		String typename = "MArticleJsoupService-parseImageList-"+pageNo;
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mMArticleJson.setList(MArticleJsoupService.parseImageList(url, pageNo));
+			try {
+				//数据存储
+				Gson gson = new Gson();
+				OpenDBBean  openbean = new OpenDBBean();
+	    	    openbean.setUrl(url);
+	    	    openbean.setTypename(typename);
+			    openbean.setTitle(gson.toJson(mMArticleJson));
+			    OpenDBService.insert(getActivity(), openbean);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			List<OpenDBBean> beanlist =  OpenDBService.queryListType(getActivity(), url,typename);
+			String result = beanlist.get(0).getTitle();
+			Gson gson = new Gson();
+			mMArticleJson = gson.fromJson(result, MArticleJson.class);
+		}
 		return mMArticleJson;
 	}
 
@@ -97,6 +122,9 @@ public class MImageHeadFragmnet extends BaseV4Fragment<MArticleJson, MImageHeadF
 	public void onCallback(MArticleJson result) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
+		if(result==null){
+			return;
+		}
 		try {
 			MArticleBean bean = result.getList().get(0); 
 			if(bean!=null){

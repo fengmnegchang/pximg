@@ -33,11 +33,16 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.pxing.R;
 import com.open.pxing.adapter.pc.PCFocusViewPagerAdapter;
 import com.open.pxing.bean.m.MArticleBean;
 import com.open.pxing.json.m.MArticleJson;
+import com.open.pxing.jsoup.m.MArticleJsoupService;
 import com.open.pxing.jsoup.pc.PCNavJsoupService;
 
 /**
@@ -107,37 +112,57 @@ public class PCFocusViewPagerFragment extends BaseV4Fragment<MArticleJson, PCFoc
 	public MArticleJson call() throws Exception {
 		// TODO Auto-generated method stub
 		MArticleJson mMArticleJson = new MArticleJson();
-		//读取asserts文件
-		try {  
-			//Return an AssetManager instance for your application's package  
-//            InputStream is = getActivity().getAssets().open("page");  
-//            int size = is.available();  
-//            // Read the entire asset into a local byte buffer.  
-//            byte[] buffer = new byte[size];  
-//            is.read(buffer);  
-//            is.close();  
-//            // Convert the buffer into a string.  
-//            String text = new String(buffer, "UTF-8");  
-			
-			URL urll= new URL(url);  
-            HttpURLConnection conn=(HttpURLConnection)urll.openConnection();  
-            //取得inputStream，并进行读取  
-            InputStream input=conn.getInputStream();  
-            BufferedReader in=new BufferedReader(new InputStreamReader(input));  
-            String line=null;  
-            StringBuffer sb=new StringBuffer();  
-            while((line=in.readLine())!=null){  
-                sb.append(line);  
-            }  
-            System.out.println(sb.toString());  
-            
-            String  text = sb.toString().replace("document.writeln(\"", "").replace("\");","").replace("\\","");
-            // Finally stick the string into the text view.  
-            mMArticleJson.setList(PCNavJsoupService.parsePagerList(text,pageNo));
-        } catch (IOException e) {  
-            // Should never happen!  
-            throw new RuntimeException(e);  
-        }  
+		String typename = "PCNavJsoupService-parsePagerList-"+pageNo;
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			//读取asserts文件
+			try {  
+				//Return an AssetManager instance for your application's package  
+//	            InputStream is = getActivity().getAssets().open("page");  
+//	            int size = is.available();  
+//	            // Read the entire asset into a local byte buffer.  
+//	            byte[] buffer = new byte[size];  
+//	            is.read(buffer);  
+//	            is.close();  
+//	            // Convert the buffer into a string.  
+//	            String text = new String(buffer, "UTF-8");  
+				
+				URL urll= new URL(url);  
+	            HttpURLConnection conn=(HttpURLConnection)urll.openConnection();  
+	            //取得inputStream，并进行读取  
+	            InputStream input=conn.getInputStream();  
+	            BufferedReader in=new BufferedReader(new InputStreamReader(input));  
+	            String line=null;  
+	            StringBuffer sb=new StringBuffer();  
+	            while((line=in.readLine())!=null){  
+	                sb.append(line);  
+	            }  
+	            System.out.println(sb.toString());  
+	            
+	            String  text = sb.toString().replace("document.writeln(\"", "").replace("\");","").replace("\\","");
+	            // Finally stick the string into the text view.  
+	            mMArticleJson.setList(PCNavJsoupService.parsePagerList(text,pageNo));
+	        } catch (IOException e) {  
+	            // Should never happen!  
+	            throw new RuntimeException(e);  
+	        }  
+			try {
+				//数据存储
+				Gson gson = new Gson();
+				OpenDBBean  openbean = new OpenDBBean();
+	    	    openbean.setUrl(url);
+	    	    openbean.setTypename(typename);
+			    openbean.setTitle(gson.toJson(mMArticleJson));
+			    OpenDBService.insert(getActivity(), openbean);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			List<OpenDBBean> beanlist =  OpenDBService.queryListType(getActivity(), url,typename);
+			String result = beanlist.get(0).getTitle();
+			Gson gson = new Gson();
+			mMArticleJson = gson.fromJson(result, MArticleJson.class);
+		}
+		
 		return mMArticleJson;
 	}
 

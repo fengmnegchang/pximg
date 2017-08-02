@@ -11,18 +11,21 @@
  */
 package com.open.pxing.fragment.m;
 
+import java.util.List;
+
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.open.android.bean.db.OpenDBBean;
 import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.common.CommonPullToRefreshGridFragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.pxing.activity.m.MImagePullListActivity;
 import com.open.pxing.adapter.m.MArticleGridAdapter;
-import com.open.pxing.adapter.m.MArticleListAdapter;
 import com.open.pxing.bean.m.MArticleBean;
 import com.open.pxing.json.m.MArticleJson;
 import com.open.pxing.jsoup.m.MArticleJsoupService;
@@ -80,7 +83,26 @@ public class MArticlePullGridFragmnet extends CommonPullToRefreshGridFragment<MA
 				href = url+"/page/"+pageNo;
 			}
 		}
-		mMArticleJson.setList(MArticleJsoupService.parseList(href, pageNo));
+		String typename = "MArticleJsoupService-parseList-"+pageNo;
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mMArticleJson.setList(MArticleJsoupService.parseList(href, pageNo));
+			try {
+				//数据存储
+				Gson gson = new Gson();
+				OpenDBBean  openbean = new OpenDBBean();
+	    	    openbean.setUrl(url);
+	    	    openbean.setTypename(typename);
+			    openbean.setTitle(gson.toJson(mMArticleJson));
+			    OpenDBService.insert(getActivity(), openbean);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			List<OpenDBBean> beanlist =  OpenDBService.queryListType(getActivity(), url,typename);
+			String result = beanlist.get(0).getTitle();
+			Gson gson = new Gson();
+			mMArticleJson = gson.fromJson(result, MArticleJson.class);
+		}
 		return mMArticleJson;
 	}
 
@@ -95,6 +117,9 @@ public class MArticlePullGridFragmnet extends CommonPullToRefreshGridFragment<MA
 	public void onCallback(MArticleJson result) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
+		if(result==null){
+			return;
+		}
 		Log.i(TAG, "getMode ===" + mPullToRefreshHeadGridView.getCurrentMode());
 		if (mPullToRefreshHeadGridView.getCurrentMode() == Mode.PULL_FROM_START) {
 			list.clear();

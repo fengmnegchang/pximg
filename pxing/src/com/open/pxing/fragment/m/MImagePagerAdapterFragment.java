@@ -22,7 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.BaseV4Fragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.android.weak.WeakActivityReferenceHandler;
 import com.open.pxing.R;
 import com.open.pxing.adapter.m.MImagePagerAdapter;
@@ -154,7 +158,26 @@ public class MImagePagerAdapterFragment extends BaseV4Fragment<MArticleJson, MIm
 //			mMArticleJson.setList(MArticleJsoupService.parseImageList(list.get(position).getHref(),position));
 //			mMArticleJson.setCurrentPosition(position);
 //		}
-		mMArticleJson = MArticleJsoupService.parsePXImagePagerList(url,position);
+		String typename = "MArticleJsoupService-parsePXMImageFootList-"+pageNo;
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mMArticleJson = MArticleJsoupService.parsePXImagePagerList(url,position);
+			try {
+				//数据存储
+				Gson gson = new Gson();
+				OpenDBBean  openbean = new OpenDBBean();
+	    	    openbean.setUrl(url);
+	    	    openbean.setTypename(typename);
+			    openbean.setTitle(gson.toJson(mMArticleJson));
+			    OpenDBService.insert(getActivity(), openbean);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			List<OpenDBBean> beanlist =  OpenDBService.queryListType(getActivity(), url,typename);
+			String result = beanlist.get(0).getTitle();
+			Gson gson = new Gson();
+			mMArticleJson = gson.fromJson(result, MArticleJson.class);
+		}
 		return mMArticleJson;
 	}
  
@@ -168,6 +191,9 @@ public class MImagePagerAdapterFragment extends BaseV4Fragment<MArticleJson, MIm
 	public void onCallback(MArticleJson result) {
 		// TODO Auto-generated method stub
 //		super.onCallback(result);
+		if(result==null){
+			return;
+		}
 		if(result.getList().size()>0){
 			list.clear();
 			list.addAll(result.getList());

@@ -11,6 +11,8 @@
  */
 package com.open.pxing.fragment.pc;
 
+import java.util.List;
+
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -19,13 +21,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.pxing.R;
 import com.open.pxing.adapter.pc.PCHomeGridAdapter;
 import com.open.pxing.bean.pc.HomeArticleBean;
+import com.open.pxing.json.m.MArticleJson;
 import com.open.pxing.json.pc.HomeArticleJson;
+import com.open.pxing.jsoup.m.MArticleJsoupService;
 import com.open.pxing.jsoup.pc.PCNavJsoupService;
 
 /**
@@ -96,7 +104,26 @@ public class PCHomeArticlePullListFragmnet extends CommonPullToRefreshListFragme
 	public HomeArticleJson call() throws Exception {
 		// TODO Auto-generated method stub
 		HomeArticleJson mMArticleJson = new HomeArticleJson();
-		mMArticleJson.setList(PCNavJsoupService.parseHomeList(url, pageNo));
+		String typename = "PCNavJsoupService-PCNavJsoupService-"+pageNo;
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mMArticleJson.setList(PCNavJsoupService.parseHomeList(url, pageNo));
+			try {
+				//数据存储
+				Gson gson = new Gson();
+				OpenDBBean  openbean = new OpenDBBean();
+	    	    openbean.setUrl(url);
+	    	    openbean.setTypename(typename);
+			    openbean.setTitle(gson.toJson(mMArticleJson));
+			    OpenDBService.insert(getActivity(), openbean);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			List<OpenDBBean> beanlist =  OpenDBService.queryListType(getActivity(), url,typename);
+			String result = beanlist.get(0).getTitle();
+			Gson gson = new Gson();
+			mMArticleJson = gson.fromJson(result, HomeArticleJson.class);
+		}
 		return mMArticleJson;
 	}
 

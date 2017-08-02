@@ -12,6 +12,7 @@
 package com.open.pxing.fragment.m;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.os.Message;
@@ -25,10 +26,12 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.open.android.bean.db.OpenDBBean;
 import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.pxing.activity.m.MImagePullListActivity;
 import com.open.pxing.adapter.m.MArticleListAdapter;
 import com.open.pxing.bean.m.MArticleBean;
@@ -89,7 +92,26 @@ public class MArticlePullListFragmnet extends CommonPullToRefreshListFragment<MA
 				href = url+"/page/"+pageNo;
 			}
 		}
-		mMArticleJson.setList(MArticleJsoupService.parseList(href, pageNo));
+		String typename = "MArticleJsoupService-parseList-"+pageNo;
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mMArticleJson.setList(MArticleJsoupService.parseList(href, pageNo));
+			try {
+				//数据存储
+				Gson gson = new Gson();
+				OpenDBBean  openbean = new OpenDBBean();
+	    	    openbean.setUrl(url);
+	    	    openbean.setTypename(typename);
+			    openbean.setTitle(gson.toJson(mMArticleJson));
+			    OpenDBService.insert(getActivity(), openbean);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			List<OpenDBBean> beanlist =  OpenDBService.queryListType(getActivity(), url,typename);
+			String result = beanlist.get(0).getTitle();
+			Gson gson = new Gson();
+			mMArticleJson = gson.fromJson(result, MArticleJson.class);
+		}
 		return mMArticleJson;
 	}
 
@@ -102,6 +124,9 @@ public class MArticlePullListFragmnet extends CommonPullToRefreshListFragment<MA
 	 */
 	@Override
 	public void onCallback(MArticleJson result) {
+		if(result==null){
+			return;
+		}
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 		Log.i(TAG, "getMode ===" + mPullToRefreshListView.getCurrentMode());

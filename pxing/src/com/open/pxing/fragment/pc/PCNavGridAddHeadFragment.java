@@ -23,12 +23,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshHeadGridView;
 import com.open.andenginetask.CallEarliest;
 import com.open.andenginetask.Callable;
 import com.open.andenginetask.Callback;
+import com.open.android.bean.db.OpenDBBean;
+import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.common.CommonPullToRefreshGridFragment;
+import com.open.android.utils.NetWorkUtils;
 import com.open.android.view.ExpendListView;
 import com.open.pxing.R;
 import com.open.pxing.activity.pc.PCImagePullListActivity;
@@ -36,6 +40,7 @@ import com.open.pxing.adapter.m.MImageFootListAdapter;
 import com.open.pxing.adapter.pc.PCNavGridAdapter;
 import com.open.pxing.bean.m.MArticleBean;
 import com.open.pxing.json.m.MArticleJson;
+import com.open.pxing.jsoup.m.MArticleJsoupService;
 import com.open.pxing.jsoup.pc.PCNavJsoupService;
 
 /**
@@ -102,13 +107,35 @@ public class PCNavGridAddHeadFragment  extends CommonPullToRefreshGridFragment<M
 			@Override
 			public MArticleJson call() throws Exception {
 				MArticleJson mMArticleJson = new MArticleJson();
-				mMArticleJson.setList(PCNavJsoupService.parseFootList(url, pageNo));
+				String typename = "PCNavJsoupService-parseFootList-"+pageNo;
+				if(NetWorkUtils.isNetworkAvailable(getActivity())){
+					mMArticleJson.setList(PCNavJsoupService.parseFootList(url, pageNo));
+					try {
+						//数据存储
+						Gson gson = new Gson();
+						OpenDBBean  openbean = new OpenDBBean();
+			    	    openbean.setUrl(url);
+			    	    openbean.setTypename(typename);
+					    openbean.setTitle(gson.toJson(mMArticleJson));
+					    OpenDBService.insert(getActivity(), openbean);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}else{
+					List<OpenDBBean> beanlist =  OpenDBService.queryListType(getActivity(), url,typename);
+					String result = beanlist.get(0).getTitle();
+					Gson gson = new Gson();
+					mMArticleJson = gson.fromJson(result, MArticleJson.class);
+				}
 				return mMArticleJson;
 			}
 		}  , new Callback<MArticleJson>(){
 			@Override
 			public void onCallback(MArticleJson result) {
 				// TODO Auto-generated method stub
+				if(result==null){
+					return;
+				}
 				hlist.clear();
 				hlist.addAll(result.getList());
 				mMImageFootListAdapter.notifyDataSetChanged();
@@ -123,7 +150,26 @@ public class PCNavGridAddHeadFragment  extends CommonPullToRefreshGridFragment<M
 	public MArticleJson call() throws Exception {
 		// TODO Auto-generated method stub
 		MArticleJson mMArticleJson = new MArticleJson();
-		mMArticleJson.setList(PCNavJsoupService.parseList(url, pageNo));
+		String typename = "PCNavJsoupService-parseList-"+pageNo;
+		if(NetWorkUtils.isNetworkAvailable(getActivity())){
+			mMArticleJson.setList(PCNavJsoupService.parseList(url, pageNo));
+			try {
+				//数据存储
+				Gson gson = new Gson();
+				OpenDBBean  openbean = new OpenDBBean();
+	    	    openbean.setUrl(url);
+	    	    openbean.setTypename(typename);
+			    openbean.setTitle(gson.toJson(mMArticleJson));
+			    OpenDBService.insert(getActivity(), openbean);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			List<OpenDBBean> beanlist =  OpenDBService.queryListType(getActivity(), url,typename);
+			String result = beanlist.get(0).getTitle();
+			Gson gson = new Gson();
+			mMArticleJson = gson.fromJson(result, MArticleJson.class);
+		}
 		return mMArticleJson;
 	}
 
@@ -134,6 +180,9 @@ public class PCNavGridAddHeadFragment  extends CommonPullToRefreshGridFragment<M
 	public void onCallback(MArticleJson result) {
 		// TODO Auto-generated method stub
 //		super.onCallback(result);
+		if(result==null){
+			return;
+		}
 		Log.i(TAG, "getMode ===" + mPullToRefreshHeadGridView.getCurrentMode());
 		if (mPullToRefreshHeadGridView.getCurrentMode() == Mode.PULL_FROM_START) {
 			list.clear();
