@@ -816,45 +816,87 @@ public class MArticleJsoupService extends CommonService {
 				// Element globalnavElement =
 				// doc.select("div.adFocusHtml").first();
 				Elements moduleElements = doc.select("div.maxPicBox");
-				if (moduleElements != null && moduleElements.size() > 0) {
-					for (int i = 0; i < moduleElements.size(); i++) {
-							MArticleBean sbean = new MArticleBean();
-							try {
-								 sbean.setHref(href);
-								try {
-									Element imgElement = moduleElements.get(i).select("img").first();
-									if (imgElement != null) {
-										String alt = imgElement.attr("alt");
-										if(alt.contains("%u")){
-											alt = EscapeUnescapeUtils.unescape(alt);
-										}
-										Log.i(TAG, "i==" + i + ";alt==" + alt);
-										sbean.setAlt(alt);
-									}
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-
-								try {
-									Element imgElement = moduleElements.get(i).select("img").first();
-									if (imgElement != null) {
-										String dataimg = "https:"+imgElement.attr("src").replace("						", "").replace(" ", "").replace("\t\t", "").replace("\t", "");
-										Log.i(TAG, "i==" + i + ";dataimg==" + dataimg);
-										sbean.setDataimg(dataimg);
-									}
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
- 
-							list.add(sbean);
+				if(moduleElements==null || moduleElements.size()==0){
+					try {
+						/**
+						 * playlist==				<div class='cont' id='myElement'><script type='text/javascript'>jwplayer('myElement').setup({playlist:'',file:'http://gslb.miaopai.com/stream/JUcrYOTtrE14088zhyf5G~JXl2nZ2ebX.mp4',image:'//img.pximg.com/2017/07/1acac0f5f62fde3.png',width: '100%',aspectratio:'10:6',advertising: {client:'vast',schedule: {'myAds':{'offset':'pre','tag':''}}}})</script></div>					<div style="padding: 5px;">
+						 * */
+						
+						//读取图片信息
+						try {
+							    URL url = new URL(href);
+							    InputStreamReader read = new InputStreamReader(url.openStream(), "utf-8");// 考虑到编码格式
+				                BufferedReader bufferedReader = new BufferedReader(read);
+				                String lineTxt = null;
+				                while ((lineTxt = bufferedReader.readLine()) != null) {//按行读取
+				                    if (!"".equals(lineTxt)) {
+				                    	if(lineTxt.contains("playlist") && lineTxt.contains("jwplayer(")){
+				                    		MArticleBean sbean = new MArticleBean();
+				                    		//file:'http://gslb.miaopai.com/stream/JUcrYOTtrE14088zhyf5G~JXl2nZ2ebX.mp4',
+				                    		//image:'//img.pximg.com/2017/07/1acac0f5f62fde3.png',width: '100%'
+				                    		String file = lineTxt.split("image:")[0];
+				                    		String image = lineTxt.split("image:")[1];
+				                    		System.out.println("file=="+file+"image="+image);
+				                    		
+				                    		file = file.split("file:")[1];
+				                    		file = file.replace("'", "").replace(",", "");
+				                    		sbean.setHref(file);
+				                    		
+				                    		image = image.split("width:")[0];
+				                    		image = "https:"+image.replace("'", "").replace(",", "");
+				                    		sbean.setDataimg(image);
+				                    		list.add(sbean);
+				                    	}
+				                        System.out.println(lineTxt);
+				                    }
+				                }
+				                read.close();//关闭InputStreamReader
+				                bufferedReader.close();//关闭BufferedReader
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
-					 
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}else{
+					if (moduleElements != null && moduleElements.size() > 0) {
+						for (int i = 0; i < moduleElements.size(); i++) {
+								MArticleBean sbean = new MArticleBean();
+								try {
+									 sbean.setHref(href);
+									try {
+										Element imgElement = moduleElements.get(i).select("img").first();
+										if (imgElement != null) {
+											String alt = imgElement.attr("alt");
+											if(alt.contains("%u")){
+												alt = EscapeUnescapeUtils.unescape(alt);
+											}
+											Log.i(TAG, "i==" + i + ";alt==" + alt);
+											sbean.setAlt(alt);
+										}
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+	
+									try {
+										Element imgElement = moduleElements.get(i).select("img").first();
+										if (imgElement != null) {
+											String dataimg = "https:"+imgElement.attr("src").replace("						", "").replace(" ", "").replace("\t\t", "").replace("\t", "");
+											Log.i(TAG, "i==" + i + ";dataimg==" + dataimg);
+											sbean.setDataimg(dataimg);
+										}
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+	
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+	 
+								list.add(sbean);
+							}
+					}
 				}
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

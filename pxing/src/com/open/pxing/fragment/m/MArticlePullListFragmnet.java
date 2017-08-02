@@ -33,6 +33,7 @@ import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
 import com.open.android.utils.NetWorkUtils;
 import com.open.pxing.activity.m.MImagePullListActivity;
+import com.open.pxing.activity.m.MVideoViewActivity;
 import com.open.pxing.adapter.m.MArticleListAdapter;
 import com.open.pxing.bean.m.MArticleBean;
 import com.open.pxing.json.m.MArticleJson;
@@ -249,7 +250,12 @@ public class MArticlePullListFragmnet extends CommonPullToRefreshListFragment<MA
 			openbean.setTitle(bean.getAlt());
 			openbean.setTypename(1+"");
 			OpenDBService.insert(getActivity(), openbean);
-
+//			if(href.contains("mnvid")){
+//				MVideoViewActivity.startMVideoViewActivity(getActivity(), bean.getHref());
+//			}else{
+//				MImagePullListActivity.startMImagePullListActivity(getActivity(),
+//						bean.getHref());
+//			}
 			MImagePullListActivity.startMImagePullListActivity(getActivity(),
 					bean.getHref());
 		}

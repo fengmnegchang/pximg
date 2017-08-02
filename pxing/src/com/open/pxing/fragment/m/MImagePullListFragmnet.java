@@ -30,6 +30,7 @@ import com.open.android.fragment.common.CommonPullToRefreshListFragment;
 import com.open.android.utils.NetWorkUtils;
 import com.open.pxing.R;
 import com.open.pxing.activity.m.MImagePagerAdapterFragmentActivity;
+import com.open.pxing.activity.m.MVideoViewActivity;
 import com.open.pxing.adapter.m.MImageListAdapter;
 import com.open.pxing.bean.m.MArticleBean;
 import com.open.pxing.json.m.MArticleJson;
@@ -160,7 +161,11 @@ public class MImagePullListFragmnet extends CommonPullToRefreshListFragment<MArt
 			MArticleJson mMArticleJson = new MArticleJson();
 			mMArticleJson.setList(list);
 			mMArticleJson.setCurrentPosition((int)id);
-			MImagePagerAdapterFragmentActivity.startMImagePagerAdapterFragmentActivity(getActivity(),list.get(0).getHref(), mMArticleJson);
+			if(list.get(0).getHref().contains(".mp4")){
+				MVideoViewActivity.startMVideoViewActivity(getActivity(), list.get(0).getHref());
+			}else{
+				MImagePagerAdapterFragmentActivity.startMImagePagerAdapterFragmentActivity(getActivity(),list.get(0).getHref(), mMArticleJson);
+			}
 		}
 	}
   
