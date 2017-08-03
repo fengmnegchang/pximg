@@ -179,6 +179,14 @@
             android:description="@string/pxing_history_list_horizontal_list_desp"
              >
         </activity>
+        <!-- pxing m首页pager -->
+        <activity
+            android:name="com.open.pxing.activity.m.MMainTopPagerFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/pxing_main_top_pager_f_desp" >
+        </activity>
+        
+        
         
         <!--pxing pc 性感grid列表 -->
         <activity

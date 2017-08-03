@@ -112,11 +112,19 @@ public class MCollectionGridFragment extends CommonPullToRefreshGridFragment<Ope
 		Log.i(TAG, "getMode ===" + mPullToRefreshHeadGridView.getCurrentMode());
 		if (mPullToRefreshHeadGridView.getCurrentMode() == Mode.PULL_FROM_START) {
 			list.clear();
-			list.addAll(result.getList());
+			for(OpenDBBean bean:result.getList()){
+				if("0".equals(bean.getTypename())){
+					list.add(bean);
+				}
+			}
 			pageNo = 1;
 		} else {
 			if (result.getList() != null && result.getList().size() > 0) {
-				list.addAll(result.getList());
+				for(OpenDBBean bean:result.getList()){
+					if("0".equals(bean.getTypename())){
+						list.add(bean);
+					}
+				}
 			}
 		}
 //		mPullToRefreshHeadGridView.getRefreshableView().setNumColumns(result.getList().size());

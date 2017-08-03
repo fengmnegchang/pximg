@@ -105,16 +105,17 @@ public class MArticleGridAdapter extends CommonAdapter<MArticleBean>{
 			                	animatable.start();
 			                }
 			            }
+			            CommonWebViewActivity.startCommonWebViewActivity(mContext, bean.getHref());
 			        }
 			    });
 			}
 
-			viewHolder.draweeview.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					CommonWebViewActivity.startCommonWebViewActivity(mContext, bean.getHref());
-				}
-			});
+//			viewHolder.draweeview.setOnClickListener(new OnClickListener() {
+//				@Override
+//				public void onClick(View v) {
+//					CommonWebViewActivity.startCommonWebViewActivity(mContext, bean.getHref());
+//				}
+//			});
 
 		}
 		return convertView;

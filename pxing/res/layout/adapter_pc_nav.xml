@@ -23,14 +23,23 @@
         android:gravity="center"
         android:scaleType="fitCenter"
         android:layout_marginTop="3dp"
+        android:visibility="gone"
         android:layout_below="@+id/text_title"
         android:src="@drawable/default_img" />
-
+<com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/draweeview"
+       android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="3dp"
+        android:layout_below="@+id/text_title"
+         />
     <TextView
         android:id="@+id/text_camLiDes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageview"
+        android:layout_below="@+id/draweeview"
         android:layout_marginTop="5dp"
         android:textSize="14sp" />
 

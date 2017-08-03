@@ -31,4 +31,6 @@
 	<string name="pxing_pc_image_pager_list_desp">pxing pc看图pager</string>
 	<string name="pxing_weex_main_desp">pxing weex main</string>
 	<string name="pxing_weex_nav_desp">pxing weex  nav</string>
+	<string name="pxing_main_top_pager_f_desp">pxing m首页pager</string>
+	
 </resources>

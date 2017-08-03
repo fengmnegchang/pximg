@@ -101,7 +101,11 @@ public class MHistoryHorizontalListFragment extends BaseV4Fragment<OpenDBJson, M
 		// TODO Auto-generated method stub
 		// super.onCallback(result);
 		list.clear();
-		list.addAll(result.getList());
+		for(OpenDBBean bean:result.getList()){
+			if("0".equals(bean.getTypename())){
+				list.add(bean);
+			}
+		}
 		pageNo = 1;
 
 		// mPullToRefreshHeadGridView.getRefreshableView().setNumColumns(result.getList().size());

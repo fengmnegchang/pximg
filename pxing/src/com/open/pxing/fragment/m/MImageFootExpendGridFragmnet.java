@@ -79,6 +79,7 @@ public class MImageFootExpendGridFragmnet extends BaseV4Fragment<MArticleJson,MI
 		// TODO Auto-generated method stub
 		mMArticleGridAdapter = new MArticleGridAdapter(getActivity(), list);
 		mExpendGridView.setAdapter(mMArticleGridAdapter);
+		mExpendGridView.setOnItemClickListener(this);
 	}
 
 	/*
@@ -247,7 +248,7 @@ public class MImageFootExpendGridFragmnet extends BaseV4Fragment<MArticleJson,MI
 			//保存收藏
 			MArticleBean bean = list.get((int) id);
 			String href = "";
-			if (bean.getHref().contains("_")) {
+			if (bean.getHref()!=null && bean.getHref().contains("_")) {
 				href = bean.getHref().split("_")[0] + ".html";
 			} else {
 				href = bean.getHref();
