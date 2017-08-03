@@ -23,19 +23,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.controller.BaseControllerListener;
-import com.facebook.drawee.controller.ControllerListener;
-import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.animated.base.AbstractAnimatedDrawable;
-import com.facebook.imagepipeline.image.ImageInfo;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.open.android.activity.common.CommonWebViewActivity;
 import com.open.android.adapter.CommonAdapter;
 import com.open.pxing.R;
-import com.open.pxing.activity.pc.PCImagePullListActivity;
 import com.open.pxing.bean.m.MArticleBean;
 import com.open.pxing.bean.pc.HomeArticleBean;
 
@@ -125,7 +117,8 @@ public class PCHomeGridAdapter extends CommonAdapter<HomeArticleBean> {
 			view.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					PCImagePullListActivity.startPCImagePullListActivity(mContext, bean.getHref());
+//					PCImagePullListActivity.startPCImagePullListActivity(mContext, bean.getHref());
+					CommonWebViewActivity.startCommonWebViewActivity(mContext, bean.getHref());
 				}
 			});
 			viewHolder.lay_grid.addView(view, new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));

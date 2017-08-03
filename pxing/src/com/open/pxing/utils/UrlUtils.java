@@ -40,6 +40,7 @@ public class UrlUtils {
 	/** m pc看图 **/
 	public static final String MM_PC_IMAGE = "http://www.mm131.com/mingxing/1742.html";
 	
+	public static final String PXING_COM = "https://www.pximg.com";
 	public static final String PXING = "https://www.pximg.com/";
 	public static final String PXING_NEW="https://www.pximg.com/new/";
 	public static final String PXING_SEARCH="https://www.pximg.com/?s=";

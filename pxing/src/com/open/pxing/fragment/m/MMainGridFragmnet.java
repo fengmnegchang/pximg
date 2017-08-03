@@ -9,7 +9,7 @@
  * @description:
  *****************************************************************************************************************************************************************************
  */
-package com.open.pxing.fragment.pc;
+package com.open.pxing.fragment.m;
 
 import java.util.List;
 
@@ -47,13 +47,13 @@ import com.open.pxing.jsoup.pc.PCNavJsoupService;
  * @description:
  *****************************************************************************************************************************************************************************
  */
-public class PCHomeArticlePullListFragmnet extends CommonPullToRefreshListFragment<HomeArticleBean, HomeArticleJson> {
+public class MMainGridFragmnet extends CommonPullToRefreshListFragment<HomeArticleBean, HomeArticleJson> {
 	public PCHomeGridAdapter mPCHomeGridAdapter;
 	public View headview;
 	public View footview;
 	
-	public static PCHomeArticlePullListFragmnet newInstance(String url, boolean isVisibleToUser) {
-		PCHomeArticlePullListFragmnet fragment = new PCHomeArticlePullListFragmnet();
+	public static MMainGridFragmnet newInstance(String url, boolean isVisibleToUser) {
+		MMainGridFragmnet fragment = new MMainGridFragmnet();
 		fragment.setFragment(fragment);
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
@@ -77,17 +77,17 @@ public class PCHomeArticlePullListFragmnet extends CommonPullToRefreshListFragme
 	@Override
 	public void initValues() {
 		// TODO Auto-generated method stub
-		mPullToRefreshListView.getRefreshableView().addHeaderView(headview);
-		mPullToRefreshListView.getRefreshableView().addFooterView(footview);
-		
-		PCNavHeadExpendListFragmnet ffragment = PCNavHeadExpendListFragmnet.newInstance(url, true);
-		getChildFragmentManager().beginTransaction().replace(R.id.id_expend_foot, ffragment).commit();
-		
-		PCHomeHeadExpendListFragmnet hfragment = PCHomeHeadExpendListFragmnet.newInstance(url, true);
-		getChildFragmentManager().beginTransaction().replace(R.id.id_m_head, hfragment).commit();
-		
-		PCFocusViewPagerFragment pfragment = PCFocusViewPagerFragment.newInstance("http://www.mm131.com/css/focus.js", true);
-		getChildFragmentManager().beginTransaction().replace(R.id.id_m_page, pfragment).commit();
+//		mPullToRefreshListView.getRefreshableView().addHeaderView(headview);
+//		mPullToRefreshListView.getRefreshableView().addFooterView(footview);
+//		
+//		PCNavHeadExpendListFragmnet ffragment = PCNavHeadExpendListFragmnet.newInstance(url, true);
+//		getChildFragmentManager().beginTransaction().replace(R.id.id_expend_foot, ffragment).commit();
+//		
+//		PCHomeHeadExpendListFragmnet hfragment = PCHomeHeadExpendListFragmnet.newInstance(url, true);
+//		getChildFragmentManager().beginTransaction().replace(R.id.id_m_head, hfragment).commit();
+//		
+//		PCFocusViewPagerFragment pfragment = PCFocusViewPagerFragment.newInstance("http://www.mm131.com/css/focus.js", true);
+//		getChildFragmentManager().beginTransaction().replace(R.id.id_m_page, pfragment).commit();
 		
 		mPCHomeGridAdapter = new PCHomeGridAdapter(getActivity(), list);
 		mPullToRefreshListView.setAdapter(mPCHomeGridAdapter);
@@ -104,9 +104,9 @@ public class PCHomeArticlePullListFragmnet extends CommonPullToRefreshListFragme
 	public HomeArticleJson call() throws Exception {
 		// TODO Auto-generated method stub
 		HomeArticleJson mMArticleJson = new HomeArticleJson();
-		String typename = "PCNavJsoupService-parseHomeList-"+pageNo;
+		String typename = "PCNavJsoupService-parsePXHomeList-"+pageNo;
 		if(NetWorkUtils.isNetworkAvailable(getActivity())){
-			mMArticleJson.setList(PCNavJsoupService.parseHomeList(url, pageNo));
+			mMArticleJson.setList(PCNavJsoupService.parsePXHomeList(url, pageNo));
 			try {
 				//数据存储
 				Gson gson = new Gson();

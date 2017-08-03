@@ -516,6 +516,110 @@ public class PCNavJsoupService extends CommonService {
 		return list;
 	}
 	
+	
+	public static List<HomeArticleBean> parsePXHomeList(String href, int pageNo) {
+		List<HomeArticleBean> list = new ArrayList<HomeArticleBean>();
+		try {
+			// href = makeURL(href, new HashMap<String, Object>() {
+			// {
+			// }
+			// });
+			Document doc;
+			doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent)
+					.cookie("Cookie", "UM_distinctid=15d4f9ce60a4eb-050c6be969bcef-35414878-1aeaa0-15d4f9ce60b3bc; CNZZDATA1260136144=1243021942-1500278440-https%253A%252F%252Fwww.baidu.com%252F%7C1501116123; Hm_lvt_21e82dda40c2143d1c3187f1c80935ec=1500279272,1500968826,1501061381; Hm_lpvt_21e82dda40c2143d1c3187f1c80935ec=1501119552")
+					.timeout(10000).get();
+			Log.i(TAG, "url = " + href);
+//			Document doc = Jsoup.connect(href).userAgent(UrlUtils.userAgent).timeout(10000).get();
+			// System.out.println(doc.toString());
+			try {
+//				 Element globalnavElement = doc.select("div.main-left").first();
+				Elements moduleElements = doc.select("div.mod-title");
+				if (moduleElements != null && moduleElements.size() > 0) {
+					for (int i = 0; i < moduleElements.size(); i++) {
+						    HomeArticleBean hbean= new HomeArticleBean();
+						    try {
+						    	Element ulElement = moduleElements.get(i).select("a").first();
+							    hbean.setHref(UrlUtils.PXING_COM+ulElement.attr("href"));
+							    hbean.setAlt(ulElement.text());
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						    
+							Elements liElements = moduleElements.get(i).parent().nextElementSibling().select("li");
+							List<MArticleBean> mlist = new ArrayList<MArticleBean>();
+							for(int j=0;j<liElements.size();j++){
+								MArticleBean sbean = new MArticleBean();
+								try {
+									try {
+										Element aElement = liElements.get(j).select("a").first();
+										if (aElement != null) {
+											String hrefa = aElement.attr("href");
+											Log.i(TAG, "j==" + j + ";hrefa==" + hrefa);
+											sbean.setHref(hrefa);
+										}
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+
+									try {
+										Element imgElement = liElements.get(j).select("img").first();
+										if (imgElement != null) {
+											String alt = imgElement.attr("alt");
+											Log.i(TAG, "j==" + j + ";alt==" + alt);
+											sbean.setAlt(alt);
+										}
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+									
+									try {
+										Element imgElement = liElements.get(j).select("img").first();
+										if (imgElement != null) {
+											String src = imgElement.attr("src");
+											if(src.contains("http") || src.contains("https")){
+											}else{
+												src = "https:"+src;
+											}
+											Log.i(TAG, "j==" + j + ";src==" + src);
+											sbean.setSrc(src);
+
+										}
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+									
+									try {
+										Element imgElement = liElements.get(j).select("span.text").first();
+										if (imgElement != null) {
+											String meta = imgElement.text();
+											Log.i(TAG, "j==" + j + ";meta==" + meta);
+											sbean.setMeta(meta);
+										}
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+								mlist.add(sbean);
+							}
+							hbean.setList(mlist);
+							list.add(hbean);
+						}
+					
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 	public static List<MArticleBean> parsePCPagerList(String href, int pageNo) {
 		List<MArticleBean> list = new ArrayList<MArticleBean>();
 		try {

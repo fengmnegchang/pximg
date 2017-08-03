@@ -185,8 +185,12 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/pxing_main_top_pager_f_desp" >
         </activity>
-        
-        
+         <!-- pxing m首页 grid -->
+        <activity
+            android:name="com.open.pxing.activity.m.MMainGridFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/pxing_main_grid_f_desp" >
+        </activity>
         
         <!--pxing pc 性感grid列表 -->
         <activity
