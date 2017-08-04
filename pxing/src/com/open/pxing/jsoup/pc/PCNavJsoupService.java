@@ -554,6 +554,10 @@ public class PCNavJsoupService extends CommonService {
 										Element aElement = liElements.get(j).select("a").first();
 										if (aElement != null) {
 											String hrefa = aElement.attr("href");
+											if(hrefa.contains("http") || hrefa.contains("https")){
+											}else{
+												hrefa = UrlUtils.PXING_COM+hrefa;
+											}
 											Log.i(TAG, "j==" + j + ";hrefa==" + hrefa);
 											sbean.setHref(hrefa);
 										}

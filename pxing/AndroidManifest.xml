@@ -28,6 +28,16 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.taobao.android.hotfix.IDSECRET"
+            android:value="24571753-1" />
+        <meta-data
+            android:name="com.taobao.android.hotfix.APPSECRET"
+            android:value="a3e4ce512e7dfd95919e2ce70065b710" />
+        <meta-data
+            android:name="com.taobao.android.hotfix.RSASECRET"
+            android:value="MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDMfno3m2aKB0QhSEXe3AV8fPwUn6djkdwNFk/yp6yZMqJ2WH4NIGGJTVn0ZnAGibmVqem863ILF1aWqetJ3DC7sdwMx1cfN2Q26h8IFUuQJF7HzA8zRuf2brP1TS/q+bW9PyOJPT90wtndDnfKU34dAxtEG3utbZgiRLUXHnfNlE+O6pkdr5DqfPi4VwSLZRs1BNMkqXFlo0Q5lAkZWyc7/HYz5nMAfodmxWc7Ep5vBAC4rNVQjOJoJQ6kbzLeGUc1mjT6RBPDzjiNlfSi1j3opOfiORnkniQMBRp3dTdGpDTiTeaOLlZQ2vuyBMJKoXExgRn6/uGtLRArsuVCOcxBAgMBAAECggEBAMmlLf8HTeVtpNDs43kOnJpU5H2xsO2ONt7w0YUFsjyeoXTxbdqjw4oQrFNDb9QCmu3pzoJr6Njm+os2or0CU0vB5qrzJgWyKS+9TTw7Q3evZYa+wX5evP1TzEBnDIk4Eu26BOCfdKM+QHaqfZUVH5acKZbPQvWQzCN+fNN/R8N+ZtWtWQQLcgPWAZubbwh6RVE5NLbnvB6fgx/fGwwYuBY6eRs8stj0BY/8Tys/L1VnpG7p7ROw5J/J9HQDMacajxa3hVq0TRsvFQSYYmSjWxukN2O2iQCS1gOBrukIy4PRHSB8EYpitP2Y8bRCvi6kaM232+uk7HyO7wTavGsRAAECgYEA+SJXnl+WWsr+ydf/AkN98B6Lp0r0auunZjJi7lxI7FXVn9anIlXHE1/Qb/rCy+q4NpDlIgby6ugStYp+SF5QQyPDGXGx7vLOEtCCGty6cjqlfFXvtddAU3QoMe0py7zhJPAfnAwIIApjCQXD2xTamxpuxrHSOw1ME0IDkVB5QIECgYEA0iEyQ3/nLdKkYYMe3AvHrRonw+dI8mwvErN0kCQdjxMUVRsNsc8iUjqK3h87n/uuHp4e7g1VSoctFBYbnPEwz6XPpN+emWDEH7PlvogI6KY0VQQWQSn33tQ8Sep6Xj3Hv7Ky8Q0AoQJniOY6/7vBi8xHNg2HUX8g5QC3oDu6q8ECgYEA64N9lOgD+PyhdCpOldM7wLz/hDylZlYzv7auM2rmPRS/iAShpyGzuir/nnxNnfvb/SlokoxDI7ITza6IxtzxvyaVjv4eGSdLjBm0hLRZRRcPzcRngV1lH/9U6C2tLz71D7g4CYqOO8vV53eduQOzzKBmTEtZ1B0z55imSr7qgQECgYBVRVljYO0MgFVqqM4GF9Ww3lNSwXGtxs8XdLGRqMZCAEkY/ECDbn4MBmvCFcSZeIXBMQN2MPzyoIZfh1UvTAU1zqDD1GdE8KrF/rf1qLiMyJ2l/mGVkhVfXJsWl8uOoN2FYlwRS+h8bkBboqpAiw3Q0FX5jmXiYYeUxsS9hl+LQQKBgFyhflo7CKDy9Rj//SbFyacQ0yceFt1LmGFYggMuZpCAxROcnPTVBK8fUTRqKkyv5qgthofAcx7iYKADokqDZG+i29eFU6N23zvLpjRyZiQ9IYb7PfOBdU9Jb+Hz4Mn0nZnzTPR7i2z6R0pgX7bV45U4Yuuiybstlmpw20F3OZBj" />
+        
         <activity
             android:name=".SplashActivity"
             android:description="@string/app_name"  >
