@@ -37,11 +37,11 @@ import com.open.pxing.fragment.m.MArticlePullListFragmnet;
  ***************************************************************************************************************************************************************************** 
  */
 public class MCommonTitleBarActivity extends CommonCommonFragmentActivity implements OnClickListener {
-	private TextView txt_left;// 左文字
-	private TextView txt_title;// 中标题
-	private TextView txt_right;// 右文字
-	private ImageView id_iv_left;// 左图片
-	private ImageView id_iv_right;// 右图片
+	public TextView txt_left;// 左文字
+	public TextView txt_title;// 中标题
+	public TextView txt_right;// 右文字
+	public ImageView id_iv_left;// 左图片
+	public ImageView id_iv_right;// 右图片
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -47,4 +47,5 @@ public class UrlUtils {
 	public static final String PXING_SEX_NOVEL="https://www.pximg.com/xingfu";
 	public static final String PXING_IMAGE="https://www.pximg.com/meinv/23767.html";
 	public static final String PXING_RAND="https://www.pximg.com/meinv";
+	public static final String PXING_RAND_TAG="https://www.pximg.com/topic/youwu";
 }

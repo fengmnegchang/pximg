@@ -34,5 +34,6 @@
 	<string name="pxing_main_top_pager_f_desp">pxing m首页pager</string>
 	<string name="pxing_main_grid_f_desp">pxing m首页grid</string>
 	<string name="pxing_rank_expend_grid_f_desp">pxing m分类标签</string>
+	<string name="pxing_rank_tag_list_f_desp">pxing m 分类标签tag</string>
 	
 </resources>

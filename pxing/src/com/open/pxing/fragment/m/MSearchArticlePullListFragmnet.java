@@ -189,9 +189,16 @@ public class MSearchArticlePullListFragmnet extends MArticlePullGridFragmnet{
 		MArticleJson mMArticleJson = new MArticleJson();
 		//https://www.pximg.com /? s=
 		//https://www.pximg.com /page/2? s=
+		
 		String href = url;
 		if(pageNo>1){
-			href = url.replace("/?", "/page/"+pageNo+"?");
+			if(href.contains("/?")){
+				href = url.replace("/?", "/page/"+pageNo+"?");
+			}else{
+				//https://www.pximg.com/topic/xingganmeinv/page/2
+				//https://www.pximg.com/topic/xingganmeinv
+				href = url+"/page/"+pageNo;
+			}
 		}
 		String typename = "MArticleJsoupService-parseSearchList-"+pageNo;
 		if(NetWorkUtils.isNetworkAvailable(getActivity())){
