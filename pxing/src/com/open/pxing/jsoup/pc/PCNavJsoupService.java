@@ -682,6 +682,19 @@ public class PCNavJsoupService extends CommonService {
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
+									
+									try {
+										Element imgElement = liElements.get(j).select("img").first();
+										if (imgElement != null) {
+											String alt = imgElement.attr("alt");
+											Log.i(TAG, "j==" + j + ";alt==" + alt);
+											String src = imgElement.attr("lazysrc");
+											Log.i(TAG, "j==" + j + ";src==" + src);
+											sbean.setSrc(src);
+										}
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
 
 								} catch (Exception e) {
 									e.printStackTrace();
