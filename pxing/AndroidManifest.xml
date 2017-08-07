@@ -201,6 +201,12 @@
             android:configChanges="keyboard|keyboardHidden|navigation"
             android:description="@string/pxing_main_grid_f_desp" >
         </activity>
+        <!-- pxing m 分类标签 -->
+        <activity
+            android:name="com.open.pxing.activity.m.MRandExpendGridFragmentActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/pxing_rank_expend_grid_f_desp" >
+        </activity>
         
         <!--pxing pc 性感grid列表 -->
         <activity
