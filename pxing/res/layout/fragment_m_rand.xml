@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/draweeview"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:gravity="center"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/text_camLiDes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/draweeview"
+        android:layout_marginTop="5dp"
+        android:textSize="14sp" />
+
+</RelativeLayout>

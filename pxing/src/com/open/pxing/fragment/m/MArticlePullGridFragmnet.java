@@ -42,7 +42,7 @@ import com.open.pxing.jsoup.m.MArticleJsoupService;
  *****************************************************************************************************************************************************************************
  */
 public class MArticlePullGridFragmnet extends CommonPullToRefreshGridFragment<MArticleBean, MArticleJson> {
-	private MArticleGridAdapter mMArticleGridAdapter;
+	public MArticleGridAdapter mMArticleGridAdapter;
 	
 	public static MArticlePullGridFragmnet newInstance(String url, boolean isVisibleToUser) {
 		MArticlePullGridFragmnet fragment = new MArticlePullGridFragmnet();
