@@ -41,6 +41,7 @@ import com.open.android.view.ZoomImageView;
 import com.open.android.weak.WeakActivityReferenceHandler;
 import com.open.pxing.R;
 import com.open.pxing.bean.m.MArticleBean;
+import com.xiaomi.mistatistic.sdk.MiStatInterface;
 
 /**
  *****************************************************************************************************************************************************************************
@@ -127,6 +128,7 @@ public class MImagePagerAdapter extends CommonPagerAdapter<MArticleBean>{
 	                   @Override  
 	                   public void onClick(DialogInterface dialog, int which) {  
 	                	   //保存收藏
+	                	   MiStatInterface.recordCountEvent("美图", "保存图片");
 	                	   String href="";
 	                	   if(bean.getHref()!=null){
 	                		   if(bean.getHref().contains("_")){

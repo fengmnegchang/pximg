@@ -11,21 +11,13 @@
  */
 package com.open.pxing.fragment.m;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response.Listener;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.open.android.bean.db.OpenDBBean;
@@ -33,12 +25,11 @@ import com.open.android.db.service.OpenDBService;
 import com.open.android.fragment.common.CommonPullToRefreshListFragment;
 import com.open.android.utils.NetWorkUtils;
 import com.open.pxing.activity.m.MImagePullListActivity;
-import com.open.pxing.activity.m.MVideoViewActivity;
 import com.open.pxing.adapter.m.MArticleListAdapter;
 import com.open.pxing.bean.m.MArticleBean;
 import com.open.pxing.json.m.MArticleJson;
 import com.open.pxing.jsoup.m.MArticleJsoupService;
-import com.open.pxing.utils.UrlUtils;
+import com.xiaomi.mistatistic.sdk.MiStatInterface;
 
 /**
  ***************************************************************************************************************************************************************************** 
@@ -60,6 +51,26 @@ public class MArticlePullListFragmnet extends CommonPullToRefreshListFragment<MA
 		fragment.setUserVisibleHint(isVisibleToUser);
 		fragment.url = url;
 		return fragment;
+	}
+
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onPause()
+	 */
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MiStatInterface.recordPageEnd();
+	}
+
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onResume()
+	 */
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		MiStatInterface.recordPageStart(getActivity(), "marticle page");
 	}
 
 	/*
@@ -258,6 +269,7 @@ public class MArticlePullListFragmnet extends CommonPullToRefreshListFragment<MA
 //			}
 			MImagePullListActivity.startMImagePullListActivity(getActivity(),
 					bean.getHref());
+			MiStatInterface.recordCountEvent("美图", "查看详图");
 		}
 	}
 

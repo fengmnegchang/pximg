@@ -16,6 +16,7 @@ import android.content.Intent;
 
 import com.open.android.activity.common.CommonWebViewActivity;
 import com.open.pxing.utils.UrlUtils;
+import com.xiaomi.mistatistic.sdk.MiStatInterface;
 
 /**
  *****************************************************************************************************************************************************************************
@@ -47,6 +48,25 @@ public class PXingWebViewActivity extends CommonWebViewActivity {
 			url = UrlUtils.PXING;
 		}
 		webview.loadUrl(url);
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onResume()
+	 */
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		MiStatInterface.recordPageStart(PXingWebViewActivity.this, "pxweb page");
+	}
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onPause()
+	 */
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MiStatInterface.recordPageEnd();
 	}
 	
 	public static void startPXingWebViewActivity(Context context, String url) {

@@ -15,6 +15,7 @@ import com.open.pxing.bean.m.PatchBean;
 import com.open.pxing.utils.DeviceUtils;
 import com.taobao.sophix.SophixManager;
 import com.xiaomi.mipush.sdk.MiPushClient;
+import com.xiaomi.mistatistic.sdk.MiStatInterface;
 
 public class SplashActivity extends Activity {
 	private static final int SHOW_TIME_MIN = 3000;// 最小显示时间
@@ -143,4 +144,24 @@ public class SplashActivity extends Activity {
 			finish();
 		}
 	};
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onResume()
+	 */
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		MiStatInterface.recordPageStart(SplashActivity.this, "splash page");
+	}
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onPause()
+	 */
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		MiStatInterface.recordPageEnd();
+	}
+	
+	
 }

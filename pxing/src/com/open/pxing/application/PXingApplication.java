@@ -41,6 +41,10 @@ import com.taobao.sophix.listener.PatchLoadStatusListener;
 import com.xiaomi.channel.commonutils.logger.LoggerInterface;
 import com.xiaomi.mipush.sdk.Logger;
 import com.xiaomi.mipush.sdk.MiPushClient;
+import com.xiaomi.mistatistic.sdk.MiStatInterface;
+import com.xiaomi.mistatistic.sdk.URLStatsRecorder;
+import com.xiaomi.mistatistic.sdk.controller.HttpEventFilter;
+import com.xiaomi.mistatistic.sdk.data.HttpEvent;
 
 /**
  *****************************************************************************************************************************************************************************
@@ -115,6 +119,32 @@ public class PXingApplication extends Application {
         if (sHandler == null) {
             sHandler = new DemoHandler(getApplicationContext());
         }
+        
+     // regular stats.
+     		MiStatInterface.initialize(this.getApplicationContext(), APP_ID, APP_KEY,
+     				"xiaomi");
+     		MiStatInterface.setUploadPolicy(
+     				MiStatInterface.UPLOAD_POLICY_WHILE_INITIALIZE, 0);
+     		MiStatInterface.enableLog();
+
+     		// enable exception catcher.
+     		MiStatInterface.enableExceptionCatcher(true);
+
+     		// enable network monitor
+     		URLStatsRecorder.enableAutoRecord();
+     		URLStatsRecorder.setEventFilter(new HttpEventFilter() {
+
+     			@Override
+     			public HttpEvent onEvent(HttpEvent event) {
+     				Log.d("MI_STAT", event.getUrl() + " result =" + event.toJSON());
+     				// returns null if you want to drop this event.
+     				// you can modify it here too.
+     				return event;
+     			}
+     		});
+     		
+     		Log.d("MI_STAT", MiStatInterface.getDeviceID(this) + " is the device.");
+        
 //        ImageLoaderConfiguration configuration =
 //                new ImageLoaderConfiguration
 //                        .Builder(this)
