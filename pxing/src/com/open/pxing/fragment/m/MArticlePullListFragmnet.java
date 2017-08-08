@@ -29,6 +29,7 @@ import com.open.pxing.adapter.m.MArticleListAdapter;
 import com.open.pxing.bean.m.MArticleBean;
 import com.open.pxing.json.m.MArticleJson;
 import com.open.pxing.jsoup.m.MArticleJsoupService;
+import com.open.pxing.utils.DBMySqlUtils;
 import com.xiaomi.mistatistic.sdk.MiStatInterface;
 
 /**
@@ -115,6 +116,10 @@ public class MArticlePullListFragmnet extends CommonPullToRefreshListFragment<MA
 	    	    openbean.setTypename(typename);
 			    openbean.setTitle(gson.toJson(mMArticleJson));
 			    OpenDBService.insert(getActivity(), openbean);
+			    
+			    //jdbc
+//			    DBMySqlUtils.query();
+			    DBMySqlUtils.query(openbean);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
