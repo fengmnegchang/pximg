@@ -27,6 +27,12 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="23" />
+    
+    <!-- SDK2.1新增获取用户位置信息 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    
 
     <application
         android:name="com.open.pxing.application.PXingApplication"
@@ -37,6 +43,27 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!-- qq授权登陆 -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:description="@string/app_name" 
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent222222" />
+ 				<!-- 100380359 100381104 222222 -->
+            </intent-filter>
+        </activity>
+         <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="behind"
+            android:description="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- qq授权登陆 -->
         <!-- 小米推送 -->
          <service
             android:name="com.xiaomi.push.service.XMJobService"

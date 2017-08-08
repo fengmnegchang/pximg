@@ -11,8 +11,10 @@
  */
 package com.open.pxing.activity.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
@@ -53,7 +55,20 @@ public class MAppMainSlideMenuActivity extends SlidingFragmentActivity {
 		Fragment fragment = MMainIndicatorFragment.newInstance(url,true);
 		getSupportFragmentManager().beginTransaction().replace(R.id.layout_viewpager, fragment).commit();
 	}
-
+	
+//	@Override
+//	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//	    Log.d("MAppMainSlideMenuActivity", "-->onActivityResult " + requestCode  + " resultCode=" + resultCode);
+////	    if (requestCode == Constants.REQUEST_LOGIN ||
+////	    	requestCode == Constants.REQUEST_APPBAR) {
+////	    	Tencent.onActivityResultData(requestCode,resultCode,data,loginListener);
+////	    }
+//	    //调用fragment
+//	    MAppLeftMenuPullListFragmnet fragment = (MAppLeftMenuPullListFragmnet) getSupportFragmentManager().findFragmentById(R.id.id_left_menu_frame);
+//	    fragment.onActivityResult(requestCode, resultCode, data);
+//	    super.onActivityResult(requestCode, resultCode, data);
+//	}
+	
 	private void initRightMenu() {
 
 		setBehindContentView(R.layout.left_menu_frame);
