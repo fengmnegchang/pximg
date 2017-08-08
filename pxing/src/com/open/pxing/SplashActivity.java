@@ -1,22 +1,20 @@
 package com.open.pxing;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.open.android.activity.common.CommonALLActivity;
 import com.open.pxing.application.PXingApplication;
 import com.open.pxing.bean.m.PatchBean;
+import com.open.pxing.utils.DeviceUtils;
 import com.taobao.sophix.SophixManager;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 public class SplashActivity extends Activity {
 	private static final int SHOW_TIME_MIN = 3000;// 最小显示时间
@@ -31,6 +29,9 @@ public class SplashActivity extends Activity {
 //		if (Build.VERSION.SDK_INT >= 23) {
 //            requestExternalStoragePermission();
 //        }
+		MiPushClient.setAlias(SplashActivity.this, DeviceUtils.getDeviceId(this), null);
+		Log.d("SplashActivity","Alias==="+ DeviceUtils.getDeviceId(this));
+		MiPushClient.resumePush(SplashActivity.this, null);
 		PXingApplication.msgDisplayListener = new PXingApplication.MsgDisplayListener() {
             @Override
             public void handle(final String msg) {
