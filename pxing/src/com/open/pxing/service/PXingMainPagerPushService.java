@@ -116,7 +116,9 @@ public class PXingMainPagerPushService extends Service {
 			if (count % 2 == 0) {
 				List<MArticleBean> list = MArticleJsoupService.parsePXMainTopPager(UrlUtils.PXING,0);
 				if(list!=null && list.size()>0){
-					MArticleBean bean = list.get(0);
+					java.util.Random random=new java.util.Random();// 定义随机类
+					int size=random.nextInt(list.size());// 返回[0,10)集合中的整数，注意不包括10
+					MArticleBean bean = list.get(size);
 					showNotification(bean.getAlt(),bean.getHref());
 					Gson gson = new Gson();
 					System.out.println(gson.toJson(bean));
