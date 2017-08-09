@@ -2,4 +2,5 @@
 <resources>
     <!-- Went to: $android-sdk > Android:v14 > res > values > colors.xml and copied the colors-->
      <color name="status_bar_color">#BF382B</color>
+     <color name="transparent">#00000000</color>
 </resources>
