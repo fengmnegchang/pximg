@@ -96,7 +96,7 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
-            android:description="@string/app_name"
+            android:description="@string/title_activity_assist"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- qq授权登陆 -->
         <!-- 小米推送 -->

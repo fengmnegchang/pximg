@@ -10,6 +10,7 @@
     <TextView
         android:id="@+id/popup_text"
         android:layout_height="45dp"
+        android:layout_width="fill_parent"
         android:background="@null"
         android:gravity="center"
         android:shadowColor="#000000"

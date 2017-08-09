@@ -141,6 +141,7 @@
     <string name="add_openid">click to add</string>
     <string name="title_activity_return">ReturnActivity</string>
     <string name="title_activity_auth">授权</string>
+    <string name="title_activity_assist">Assist</string>
     
      <string name="enter">这是SDK_Sample的入口界面</string>
     <string name="reg">将该app注册到微信</string>
