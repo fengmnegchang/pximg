@@ -303,6 +303,13 @@
             android:description="@string/pxing_rank_tag_list_f_desp" >
         </activity>
         
+        <!-- pxing m qq授权登陆 -->
+        <activity
+            android:name="com.open.pxing.activity.m.MQQAuthLoginActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:description="@string/pxing_qq_auth_login_desp" >
+        </activity>
+        
         <!--pxing pc 性感grid列表 -->
         <activity
             android:name="com.open.pxing.activity.pc.PCNavGridFragmentActivity"

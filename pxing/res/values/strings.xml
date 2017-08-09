@@ -35,6 +35,7 @@
 	<string name="pxing_main_grid_f_desp">pxing m首页grid</string>
 	<string name="pxing_rank_expend_grid_f_desp">pxing m分类标签</string>
 	<string name="pxing_rank_tag_list_f_desp">pxing m 分类标签tag</string>
+	<string name="pxing_qq_auth_login_desp">pxing m qq授权登陆</string>
 	
 	<string name="ok">确认</string>
     <string name="cancel">取消</string>
