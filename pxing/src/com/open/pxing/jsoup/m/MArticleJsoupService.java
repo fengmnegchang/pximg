@@ -508,7 +508,7 @@ public class MArticleJsoupService extends CommonService {
 								try {
 									Element aElement = moduleElements.get(i).select("a").first();
 									if (aElement != null) {
-										String hrefa = aElement.attr("href");
+										String hrefa = UrlUtils.PXING_COM+aElement.attr("href");
 										Log.i(TAG, "i==" + i + ";hrefa==" + hrefa);
 										sbean.setHref(hrefa);
 									}

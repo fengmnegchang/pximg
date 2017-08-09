@@ -56,7 +56,7 @@ import com.tencent.tauth.UiError;
  *****************************************************************************************************************************************************************************
  */
 public class MQQAuthLoginActivity extends CommonFragmentActivity{
-	public static String mAppid = "222222";
+	public static String mAppid = "101421230";
 	public static Tencent mTencent;
 	private static boolean isServerSideLogin = false;
 	private UserInfo mInfo;

@@ -43,7 +43,15 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!-- qq授权登陆 -->
+        <service android:name="com.open.pxing.service.PXingMainPagerPushService" />  
+        <receiver android:name="com.open.pxing.receiver.NetWorkConnectionChangeReceiver"   
+             android:label="NetworkConnection">   
+	      <intent-filter>   
+	          <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>   
+	      </intent-filter>   
+	   </receiver>
+        
+        <!-- 微信分享  -->
          <receiver
             android:name="com.open.pxing.activity.wxapi.AppRegister"
             android:permission="com.tencent.mm.plugin.permission.SEND" >
@@ -68,6 +76,8 @@
             android:label="@string/app_name"
              android:description="@string/pxing_weixin_send_to_wx_desp" 
             />
+        <!-- 微信分享 -->
+        <!-- qq授权登陆 -->
         <activity
             android:name="com.open.pxing.activity.qq.QQShareActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -88,7 +98,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="tencent222222" />
+                <data android:scheme="101421230" />
  				<!-- 100380359 100381104 222222 -->
             </intent-filter>
         </activity>
