@@ -45,9 +45,20 @@
         android:theme="@style/AppTheme">
         <!-- qq授权登陆 -->
         <activity
+            android:name="com.open.pxing.activity.qq.QQShareActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:description="@string/pxing_qzone_share_desp" 
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name="com.open.pxing.activity.qq.QZoneShareActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:description="@string/pxing_qq_share_desp" 
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        
+        <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:description="@string/app_name" 
+            android:description="@string/title_activity_auth" 
             android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
