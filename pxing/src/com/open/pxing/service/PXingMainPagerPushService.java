@@ -96,7 +96,7 @@ public class PXingMainPagerPushService extends Service {
 		Intent i = new Intent(this, MImagePullListActivity.class);
 		i.putExtra("URL", url);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, Intent.FLAG_ACTIVITY_NEW_TASK);
-		mNotification.setLatestEventInfo(this, getResources().getString(R.string.app_name), msg, pendingIntent);
+		mNotification.setLatestEventInfo(this, getResources().getString(R.string.app_name)+" 养眼美女", msg, pendingIntent);
 		mManager.notify(0, mNotification);
 	}
 
